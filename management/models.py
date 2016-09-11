@@ -77,8 +77,72 @@ class ScientificActivity(models.Model):
 class ScientificArea(models.Model):
     title = models.CharField(max_length=200)
     summary = models.TextField()
-    is_main = models.BooleanField("نوع:")
-    main_area = models.OneToOneField(ScientificActivity, related_name='main_area', blank=True, null=True)
+    # TODO: in the forms change the widget to radio select
+    is_main = models.BooleanField(name="نوع:", choices=[(True, "اصلی"), (False, "فرعی")])
+    main_area = models.OneToOneField('ScientificArea', related_name='main_scientific_area', blank=True, null=True)
+
+    moaChoices = (('item_key1', 'سرمایه های فکری'),
+                  ('item_key2', 'روش های یادگیری'),
+                  ('item_key3', 'نوآوری و فناوری'),
+                  ('item_key4', 'ذینفعان'))
+
+    activity_and_method_of_operation = MultiSelectField(name="فعالیت و شیوه ی کاری:", choices=moaChoices)
+
+    intellectualPropertyChoices= (('item_key1', 'انسانی'),
+                 ('item_key2', 'ساختاری'),
+                 ('item_key3', 'ارتباطی'))
+
+    intellectualProperty = MultiSelectField(name = "سرمایه های فکری:", choices=intellectualPropertyChoices)
+    learning_methods = models.TextField()
+    innovation_and_technology = models.TextField()
+    beneficiaries = models.TextField()
+
+    is_essential = models.BooleanField(name = "حیاتی برای پروژه.")
+
+    is_effective = models.BooleanField(name = "در انجام پروژه موثر است.")
+
+    is_potential = models.BooleanField(name=" ", choices=[(True, "بالقوه"), (False, "بالفعل")])
 
 
+class Paper(models.Model):
+    name = models.CharField(max_length=200)
+    publish_date = models.DateField()
 
+
+class PaperAuthor(models.Model):
+    national_code = models.CharField(max_length=20)
+    company_registration_code = models.CharField(max_length=20)
+    Paper = models.ForeignKey(Paper, related_name='authors')
+
+
+class Thesis(models.Model):
+    name = models.CharField(max_length=200)
+    publish_date = models.DateField()
+    author_national_code = models.CharField(max_length=10)
+
+
+class Invention(models.Model):
+    name = models.CharField(max_length=200)
+    registration_code = models.CharField(20)
+    registration_date = models.DateField()
+
+
+class Inventor(models.Model):
+    national_code = models.CharField(max_length=10)
+    company_registration_code = models.CharField(max_length=20)
+    invention = models.ForeignKey(Invention, related_name="inventors")
+
+
+class ScientificDocument(models.Model):
+    name = models.CharField(max_length=200)
+    owner_national_code = models.CharField(max_length=10)
+
+
+class ScientificRank(models.Model):
+    name = models.CharField(max_length=200)
+    related_company_registration_code = models.CharField(max_length=20)
+
+
+class ExternalResource(models.Model):
+    name = models.CharField(max_length=200)
+    link = models.URLField()
