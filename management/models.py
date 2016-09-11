@@ -16,8 +16,8 @@ class PlanGoal(models.Model):
 class Project(models.Model):
     title = models.CharField(max_length=200)
     number = models.CharField(max_length=20)
-    start_data = models.DateField(blank=True, null=True)
-    end_data = models.DateField(blank=True, null=True)
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
     importance = models.TextField()
     abstract = models.TextField()
     result = models.TextField()

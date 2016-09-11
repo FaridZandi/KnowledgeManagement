@@ -1,0 +1,24 @@
+{%  extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block head %}
+    <title> Forms </title>
+{% endblock %}
+
+{% block content %}
+    <div>
+        <form action="" method="post">
+            {% csrf_token %}
+            {% for field in projectForm %}
+                <p> {{ field.label_tag }} {{ field|add_class:'form-control' }} </p>
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <p class="text-danger" style="font-size: small" > {{ error }} </p>
+                        {% endfor %}
+                    {% endif %}
+            {% endfor %}
+            <input type="submit" value="Submit" class="btn btn-success">
+        </form>
+    </div>
+{% endblock %}
