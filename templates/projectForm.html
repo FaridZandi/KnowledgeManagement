@@ -10,14 +10,78 @@
     <div>
         <form action="" method="post">
             {% csrf_token %}
-            {% for field in projectForm %}
-                <p> {{ field.label_tag }} {{ field|add_class:'form-control' }} </p>
-                    {% if field.errors %}
-                        {% for error in field.errors %}
-                            <p class="text-danger" style="font-size: small" > {{ error }} </p>
-                        {% endfor %}
-                    {% endif %}
+
+
+            <p> {{ projectForm.title.label_tag }} {{ projectForm.title|add_class:'form-control' }} </p>
+            {% if projectForm.title.errors %}
+                {% for error in projectForm.title.errors %}
+                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
+                {% endfor %}
+            {% endif %}
+
+            <p> {{ projectForm.number.label_tag }} {{ projectForm.number|add_class:'form-control' }} </p>
+            {% if projectForm.number.errors %}
+                {% for error in projectForm.number.errors %}
+                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
+                {% endfor %}
+            {% endif %}
+
+            <p> {{ projectForm.start_date.label_tag }} {{ projectForm.start_date|add_class:"datepicker"}} </p>
+            {% if projectForm.start_date.errors %}
+                {% for error in projectForm.start_date.errors %}
+                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
+                {% endfor %}
+            {% endif %}
+
+            <div class="row">
+                <div class="col-md-2">
+                    اهداف:
+                </div>
+                <div class="col-md-10">
+                    <table id="project_goals_table">
+
+                    </table>
+                </div>
+            </div>
+
+            <p> {{ projectForm.end_date.label_tag }} {{ projectForm.end_date|add_class:"datepicker"}} </p>
+            {% if projectForm.end_date.errors %}
+                {% for error in projectForm.end_date.errors %}
+                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
+                {% endfor %}
+            {% endif %}
+
+            <p> {{ projectForm.importance.label_tag }} {{ projectForm.importance|add_class:'form-control' }} </p>
+            {% if projectForm.importance.errors %}
+                {% for error in projectForm.importance.errors %}
+                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
+                {% endfor %}
+            {% endif %}
+
+            <p> {{ projectForm.abstract.label_tag }} {{ projectForm.abstract|add_class:'form-control' }} </p>
+            {% if projectForm.abstract.errors %}
+                {% for error in projectForm.abstract.errors %}
+                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
+                {% endfor %}
+            {% endif %}
+
+            <p> {{ projectForm.result.label_tag }} {{ projectForm.result|add_class:'form-control' }} </p>
+            {% if projectForm.result.errors %}
+                {% for error in projectForm.result.errors %}
+                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
+                {% endfor %}
+            {% endif %}
+
+            {% for checkbox in projectForm.tests %}
+                {{ checkbox.tag }} {{ checkbox.choice_label }}
             {% endfor %}
+
+            {% if projectForm.tests.errors %}
+                {% for error in projectForm.tests.errors %}
+                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
+                {% endfor %}
+            {% endif %}
+
             <input type="submit" value="Submit" class="btn btn-success">
         </form>
     </div>

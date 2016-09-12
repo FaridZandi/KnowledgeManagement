@@ -4,3 +4,7 @@ from .models import *
 
 admin.site.register(Project)
 admin.site.register(ScientificArea)
+admin.site.register(OutputChoice)
+admin.site.register(ScientificActivity)
+admin.site.register(ImplicitPenChoices)
+admin.site.register(IntellectualPropertyChoice)

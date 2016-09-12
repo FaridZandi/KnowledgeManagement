@@ -1,5 +1,4 @@
 from django.db import models
-from multiselectfield import MultiSelectField
 # Create your models here.
 
 
@@ -41,37 +40,31 @@ class ProjectExecutor(models.Model):
     project = models.ForeignKey(Project, related_name="executors")
 
 
+class OutputChoice(models.Model):
+    name = models.CharField(max_length=30)
+
+
+class ImplicitPenChoices(models.Model):
+    name = models.CharField(max_length=30)
+
+
+class ExplicitPenChoices(models.Model):
+    name = models.CharField(max_length=30)
 
 
 class ScientificActivity(models.Model):
     title = models.CharField(max_length=200)
-    outputChoices = (('item_key1', 'دانش فنی'),
-                     ('item_key2', 'ساخت'),
-                     ('item_key3', 'فرآیند'),
-                     ('item_key4', 'انسانی'),
-                     ('item_key5', 'ارتباطی'),
-                     ('item_key6', 'ساختاری'),
-                     ('item_key7', 'ذینفعان'),
-                     ('item_key8', 'نوآوری و فناوری'),
-                     ('item_key9', 'روش های یادگیری'))
+    output = models.ManyToManyField(OutputChoice)
+    implicit_scientific_pen = models.ManyToManyField(ImplicitPenChoices)
+    explicit_scientific_pen = models.ManyToManyField(ExplicitPenChoices)
 
-    output = MultiSelectField(choices=outputChoices)
 
-    implicitPenChoices = (('item_key1', 'درس های آموخته شده'),
-                          ('item_key2', 'مشکلات و ریسک های انجام شده'),
-                          ('item_key3', 'فرآیندها و روش های اجرایی'),
-                          ('item_key4', 'سایر'))
+class MoaChoice(models.Model):
+    name = models.CharField(max_length=20)
 
-    implicit_scientific_pen = MultiSelectField(choices=implicitPenChoices)
 
-    explicitPenChoices = (('item_key1', 'الگوها و قالب ها'),
-                          ('item_key2', 'چک لیست ها'),
-                          ('item_key3', 'راهنماها و دستورالعمل ها'),
-                          ('item_key4', 'گزارش ها و وقایع نگارها'),
-                          ('item_key5', 'سایر'),
-                          ('item_key6', 'آیا برای انجام کار نیاز به نیروی دانشگر می باشد'))
-
-    explicit_scientific_pen = MultiSelectField(choices=explicitPenChoices)
+class IntellectualPropertyChoice(models.Model):
+    name = models.CharField(max_length=30)
 
 
 class ScientificArea(models.Model):
@@ -81,18 +74,9 @@ class ScientificArea(models.Model):
     is_main = models.BooleanField(name="نوع:", choices=[(True, "اصلی"), (False, "فرعی")])
     main_area = models.OneToOneField('ScientificArea', related_name='main_scientific_area', blank=True, null=True)
 
-    moaChoices = (('item_key1', 'سرمایه های فکری'),
-                  ('item_key2', 'روش های یادگیری'),
-                  ('item_key3', 'نوآوری و فناوری'),
-                  ('item_key4', 'ذینفعان'))
+    activity_and_method_of_operation = models.ManyToManyField(MoaChoice,name="فعالیت و شیوه ی کاری:")
 
-    activity_and_method_of_operation = MultiSelectField(name="فعالیت و شیوه ی کاری:", choices=moaChoices)
-
-    intellectualPropertyChoices= (('item_key1', 'انسانی'),
-                 ('item_key2', 'ساختاری'),
-                 ('item_key3', 'ارتباطی'))
-
-    intellectualProperty = MultiSelectField(name = "سرمایه های فکری:", choices=intellectualPropertyChoices)
+    intellectualProperty = models.ManyToManyField(IntellectualPropertyChoice, name = "سرمایه های فکری:")
     learning_methods = models.TextField()
     innovation_and_technology = models.TextField()
     beneficiaries = models.TextField()
@@ -123,7 +107,7 @@ class Thesis(models.Model):
 
 class Invention(models.Model):
     name = models.CharField(max_length=200)
-    registration_code = models.CharField(20)
+    registration_code = models.CharField(max_length=20)
     registration_date = models.DateField()
 
 
@@ -146,3 +130,10 @@ class ScientificRank(models.Model):
 class ExternalResource(models.Model):
     name = models.CharField(max_length=200)
     link = models.URLField()
+
+
+class Documentation(models.Model):
+    date = models.DateField()
+    registration_code = models.CharField(max_length=20)
+    # TODO : still no Person Object in database so I can't add anythin
+    person = "to be added"
