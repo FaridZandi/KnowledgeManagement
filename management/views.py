@@ -21,3 +21,4 @@ class projectFormView(TemplateView):
         projectForm = ProjectForm
         # return render(request, 'projectForm.html', {'projects' : projects, 'projectForm' : projectForm})
 
+    #salam
