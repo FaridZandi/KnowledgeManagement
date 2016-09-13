@@ -3,6 +3,7 @@ from django.views.generic import DeleteView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
+from django.views.generic import TemplateView, UpdateView, DeleteView
 from management.models import *
 from management.forms import *
 
@@ -37,6 +38,18 @@ class PlanFormView(TemplateView):
         planForm = PlanForm
         return render(request, 'planForm.html', {'planForm' : planForm})
 
+class PlanFormUpdateView(UpdateView):
+    model = Plan
+    fields = ['title', 'number']
+    template_name = 'planFormUpdate.html'
+    success_url = '/plan/new'
+
+    # esm form va object ro chegoone mitavan taghiir dad ?
+
+class PlanFormDeleteView(DeleteView):
+    model = Plan
+    template_name = 'planFormDelete.html'
+    success_url = '/plan/new'
 class ScientificActivityCreateView(TemplateView):
     def get(self, request, *args, **kwargs):
         return render(request, 'scientificActivityCreate.html', {'form':ScientificActivityForm})
