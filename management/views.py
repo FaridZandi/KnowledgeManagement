@@ -20,3 +20,19 @@ class projectFormView(TemplateView):
         projects = Project.objects.all()
         projectForm = ProjectForm
         return render(request, 'projectForm.html', {'projects' : projects, 'projectForm' : projectForm})
+
+
+class PlanFormView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        planForm = PlanForm
+        return render(request, 'planForm.html', {'planForm' : planForm})
+
+    def post(self, request, *args, **kwargs):
+        planForm = PlanForm(request.POST)
+        if planForm.is_valid():
+            planForm.save()
+        planForm = PlanForm
+        return render(request, 'planForm.html', {'planForm' : planForm})
+
+
+

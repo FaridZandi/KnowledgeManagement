@@ -10,3 +10,9 @@ class ProjectForm(forms.ModelForm):
         # widgets = {
         #     'tests': forms.CheckboxSelectMultiple(),
         # }
+
+
+class PlanForm(forms.ModelForm):
+    class Meta:
+        model = Plan
+        fields = ['title', 'number']

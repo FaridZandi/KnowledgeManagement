@@ -20,5 +20,6 @@ from management.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^project/new/$', projectFormView.as_view(), name= 'projectForms')
+    url(r'^project/new/$', projectFormView.as_view(), name= 'projectForms'),
+    url(r'^plan/new/$', PlanFormView.as_view(), name= 'planForm'),
 ]
