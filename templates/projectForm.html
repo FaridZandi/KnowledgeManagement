@@ -4,6 +4,10 @@
 
 {% block head %}
     <title> Forms </title>
+    <script>
+        $(document).ready(function(){
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
@@ -33,23 +37,27 @@
                 {% endfor %}
             {% endif %}
 
-            <div class="row">
-                <div class="col-md-2">
-                    اهداف:
-                </div>
-                <div class="col-md-10">
-                    <table id="project_goals_table">
-
-                    </table>
-                </div>
-            </div>
-
             <p> {{ projectForm.end_date.label_tag }} {{ projectForm.end_date|add_class:"datepicker"}} </p>
             {% if projectForm.end_date.errors %}
                 {% for error in projectForm.end_date.errors %}
                     <p class="text-danger" style="font-size: small" > {{ error }} </p>
                 {% endfor %}
             {% endif %}
+
+            <div class="row">
+                <div class="col-md-2">
+                    اهداف:
+                </div>
+                <div class="col-md-2">
+                    <table id="project_goals_table">
+                        <tr id="project_goals_table_tr">
+                            <td id="project_goal_td_1">
+                                <input type="text" name="project_goal_1" id="project_goal_1"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
 
             <p> {{ projectForm.importance.label_tag }} {{ projectForm.importance|add_class:'form-control' }} </p>
             {% if projectForm.importance.errors %}
