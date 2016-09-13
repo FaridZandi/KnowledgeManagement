@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block head %}
+    <title>
+        Plans
+    </title>
+{% endblock %}
+
+{% block content %}
+    <div>
+        <form action="" method="post" class="form-horizontal">
+            {% csrf_token %}
+            {% if planForm.non_fields_error %}
+                {% for error in planForm.non_fields_error %}
+                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
+                {% endfor %}
+            {% endif %}
+
+            <div class="form-group">
+                {{ planForm.title.label_tag}} {{ planForm.title | add_class:'form-control' | attr:"placeholder:Enter Title"}}
+                {% if planForm.title.errors %}
+                {% for error in planForm.title.errors %}
+                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
+                {% endfor %}
+            {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ planForm.number.label_tag }} {{ planForm.number | add_class:'form-control' }}
+                {% if planForm.number.errors %}
+                {% for error in planForm.number.errors %}
+                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
+                {% endfor %}
+            {% endif %}
+            </div>
+
+            <div class="form-group">
+                <input class="btn btn-default" value="Save" type="submit">
+            </div>
+
+        </form>
+    </div>
+{% endblock %}
