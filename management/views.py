@@ -5,8 +5,8 @@ from management.forms import *
 
 # Create your views here.
 
-class projectFormView(TemplateView):
 
+class projectFormView(TemplateView):
     def get(self, request, *args, **kwargs):
         projects = Project.objects.all()
         projectForm = ProjectForm
