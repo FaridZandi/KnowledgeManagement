@@ -16,3 +16,9 @@ class PlanForm(forms.ModelForm):
     class Meta:
         model = Plan
         fields = ['title', 'number']
+
+class ScientificActivityForm(forms.ModelForm):
+    class Meta:
+        model = ScientificActivity
+        fields = ['title','output','implicit_scientific_pen','explicit_scientific_pen']
+        widgets = {'output': forms.CheckboxSelectMultiple(),'implicit_scientific_pen':forms.CheckboxSelectMultiple(),'explicit_scientific_pen':forms.CheckboxSelectMultiple()}

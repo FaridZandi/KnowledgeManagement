@@ -1,5 +1,8 @@
 from django.shortcuts import render
+from django.views.generic import DeleteView
 from django.views.generic import TemplateView
+from django.views.generic import UpdateView
+
 from management.models import *
 from management.forms import *
 
@@ -34,5 +37,23 @@ class PlanFormView(TemplateView):
         planForm = PlanForm
         return render(request, 'planForm.html', {'planForm' : planForm})
 
+class ScientificActivityCreateView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'scientificActivityCreate.html', {'form':ScientificActivityForm})
+    def post(self,request,*args,**kwargs):
+        scientificActivityForm=ScientificActivityForm(request.POST)
+        if(scientificActivityForm.is_valid()):
+            scientificActivityForm.save()
+        scientificActivityForm=ScientificActivityForm
+        return render(request, 'scientificActivityCreate.html', {'form':scientificActivityForm})
 
+class ScientificActivityUpdateView(UpdateView):
+    model=ScientificActivity
+    form_class = ScientificActivityForm
+    template_name = "scientificActivityUpdate.html"
+    success_url = "/scientificactivity/new/"
 
+class ScientificActivityDeleteView(DeleteView):
+    model=ScientificActivity
+    template_name = "scientificActivityDelete.html"
+    success_url = "/scientificactivity/new/"

@@ -22,4 +22,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^project/new/$', projectFormView.as_view(), name= 'projectForms'),
     url(r'^plan/new/$', PlanFormView.as_view(), name= 'planForm'),
+    url(r'^scientificactivity/new/$',ScientificActivityCreateView.as_view(),name='createAcientificActivity'),
+    url(r'^scientificactivity/update/(?P<pk>\d+)/$',ScientificActivityUpdateView.as_view(),name='updateScientificActivity'),
+    url(r'^scientificactivity/delete/(?P<pk>\d+)/$', ScientificActivityDeleteView.as_view(),name='deleteScientificActivity')
 ]
