@@ -20,5 +20,3 @@ class projectFormView(TemplateView):
         projects = Project.objects.all()
         projectForm = ProjectForm
         return render(request, 'projectForm.html', {'projects' : projects, 'projectForm' : projectForm})
-
-    #salam
