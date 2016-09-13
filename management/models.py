@@ -5,6 +5,8 @@ from django.db import models
 class Plan(models.Model):
     title = models.CharField(max_length=200)
     number = models.CharField(max_length=20)
+    def __str__(self):
+        return self.title
 
 
 class PlanGoal(models.Model):
