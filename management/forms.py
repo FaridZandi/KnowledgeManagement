@@ -3,7 +3,6 @@ from django.forms import ModelChoiceField
 from management.models import *
 from django import forms
 
-
 class ProjectForm(forms.ModelForm):
     class Meta:
 
