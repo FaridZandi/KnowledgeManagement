@@ -9,9 +9,9 @@
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post">
+    <form action="" method="post" style="text-align: center">
         {% csrf_token %}
-        <p style="text-align: center">Are you sure you want to delete {{ object }}?</p>
+        <p>Are you sure you want to delete {{ object }}?</p>
         <input type="submit" value="Confirm" class="btn btn-danger">
     </form>
 {% endblock %}

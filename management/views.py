@@ -22,7 +22,6 @@ class projectFormView(TemplateView):
             projectForm.save()
             projectForm.seve_m2m()
         projects = Project.objects.all()
-        projectForm = ProjectForm
         return render(request, 'projectForm.html', {'projects' : projects, 'projectForm' : projectForm})
 
 
@@ -52,7 +51,7 @@ class PlanFormDeleteView(DeleteView):
     success_url = '/plan/new'
 class ScientificActivityCreateView(TemplateView):
     def get(self, request, *args, **kwargs):
-        return render(request, 'scientificActivityCreate.html', {'form':ScientificActivityForm})
+        return render(request, 'scientificActivityCreate.html', {'form':ScientificActivityForm()})
     def post(self,request,*args,**kwargs):
         scientificActivityForm=ScientificActivityForm(request.POST)
         if(scientificActivityForm.is_valid()):
