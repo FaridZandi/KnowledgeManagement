@@ -15,7 +15,6 @@
         <form action="" method="post">
             {% csrf_token %}
 
-
             <p> {{ projectForm.title.label_tag }} {{ projectForm.title|add_class:'form-control' }} </p>
             {% if projectForm.title.errors %}
                 {% for error in projectForm.title.errors %}
