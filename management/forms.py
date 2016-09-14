@@ -27,3 +27,4 @@ class ScientificAreaForm(forms.ModelForm):
     class Meta:
         model = ScientificArea
         fields='__all__'
+        #
