@@ -5,6 +5,8 @@ from django.db import models
 class Plan(models.Model):
     title = models.CharField(max_length=200)
     number = models.CharField(max_length=20)
+    def __str__(self):
+        return self.title
 
 
 class PlanGoal(models.Model):
@@ -42,15 +44,20 @@ class ProjectExecutor(models.Model):
 
 class OutputChoice(models.Model):
     name = models.CharField(max_length=30)
+    def __str__(self):
+        return self.name
 
 
 class ImplicitPenChoices(models.Model):
     name = models.CharField(max_length=30)
+    def __str__(self):
+        return self.name
 
 
 class ExplicitPenChoices(models.Model):
     name = models.CharField(max_length=30)
-
+    def __str__(self):
+        return self.name
 
 class ScientificActivity(models.Model):
     title = models.CharField(max_length=200)
@@ -135,5 +142,23 @@ class ExternalResource(models.Model):
 class Documentation(models.Model):
     date = models.DateField()
     registration_code = models.CharField(max_length=20)
-    # TODO : still no Person Object in database so I can't add anythin
+    # TODO : still no Person Model so I can't add this one
     person = "to be added"
+    role = models.CharField(max_length=200)
+    project = models.OneToOneField(Project)
+    activity = models.CharField(max_length=200)
+    problem_title = models.CharField(max_length=200)
+    problem_description = models.TextField()
+
+
+class DocumentationSuggestedSolution(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    documentation = models.ForeignKey(Documentation, related_name="solutions")
+
+
+class DocumentationKeyword(models.Model):
+    name = models.CharField(max_length=100)
+    documentation = models.ForeignKey(Documentation, related_name="keywords")
+
+
