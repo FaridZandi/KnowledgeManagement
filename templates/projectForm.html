@@ -1,13 +1,34 @@
-{% extends 'base.html' %}
+{%  extends 'base.html' %}
 
 {% load widget_tweaks %}
-
+{% load static %}
 {% block head %}
     <title> Forms </title>
     <script>
+        $(document).ready(function(){
+            $("#id_start_date").persianDatepicker({
+                formatDate: "YYYY/0M/0D",
+                cellWidth:30,
+                cellHeight:30,
+                <!-- startDate: "1394/11/12", -->
+                <!-- endDate:"1396/5/5", -->
+                onSelect:function () {
+{#                    setGregorian()#}
+                }
+            });
         $(document).ready(function () {
         });
     </script>
+
+    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/prism.css' %}">
+    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/vertical-responsive-menu.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/main.css' %}">
+
+    <script src="{% static 'js/prism.min.js' %}"></script>
+    <script src="{% static 'js/persianDatepicker.min.js' %}"></script>
+{#    <script src="{% static 'js/vertical-responsive-menu.min.js' %}"></script>#}
 {% endblock %}
 
 {% block content %}

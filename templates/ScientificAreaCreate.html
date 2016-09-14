@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block head %}
+    <title>New scientific area</title>
+    <script>
+        $(document).ready(function () {
+            $("input[name=is_main]").change(function () {
+                if ($(this).val() == "True") {
+                    $("#main_area").hide()
+                }
+                else {
+                    $("#main_area").show()
+                }
+            });
+            $("#id_is_effective").change(function () {
+                if ($('#id_is_effective').is(":checked")) {
+                    $("#is_potential").show();
+                } else {
+                    $("#is_potential").hide();
+                }
+            })
+        })
+    </script>
+{% endblock %}
+{% block content %}
+    <form action="" method="post" class="form-horizontal">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <p class="text-danger" style="font-size:small">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        <div class="form-group">
+            {{ form.title.label_tag }} {{ form.title|add_class:"form-control"|attr:"placeholder:Enter title" }}
+            {% if form.title.errors %}
+                {% for error in form.title.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form.summary.label_tag }} {{ form.summary|add_class:"form-control"|attr:"placeholder:Enter summary" }}
+            {% if form.summary.errors %}
+                {% for error in form.summary.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {% if form.is_main.errors %}
+                {% for error in form.is_main.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+            {{ form.is_main.label_tag }}
+            {% for radio in form.is_main %}
+                <label class="radio-inline">
+                    {{ radio.tag }} {{ radio.choice_label }}
+                </label>
+            {% endfor %}
+
+        </div>
+        <div id="main_area" class="form-group" style="display:none;">
+            {{ form.main_area.label_tag }} {{ form.main_area|add_class:"form-control" }}
+            {% if form.main_area.errors %}
+                {% for error in form.main_area.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {% if form.activity_and_method_of_operation.errors %}
+                {% for error in form.activity_and_method_of_operation.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+            {{ form.activity_and_method_of_operation.label_tag }}
+            {% for checkbox in form.activity_and_method_of_operation %}
+                <div class="checkbox">
+                    {{ checkbox.tag }} {{ checkbox.choice_label }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            {% if form.intellectualProperty.errors %}
+                {% for error in form.intellectualProperty.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+            {{ form.intellectualProperty.label_tag }}
+            {% for checkbox in form.intellectualProperty %}
+                <div class="checkbox">
+                    {{ checkbox.tag }} {{ checkbox.choice_label }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            {{ form.learning_methods.label_tag }} {{ form.learning_methods|add_class:"form-control"|attr:"placeholder:Enter learning method" }}
+            {% if form.learning_methods.errors %}
+                {% for error in form.learning_methods.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form.innovation_and_technology.label_tag }} {{ form.innovation_and_technology|add_class:"form-control"|attr:"placeholder:Enter innovation and technology" }}
+            {% if form.innovation_and_technology.errors %}
+                {% for error in form.innovation_and_technology.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form.beneficiaries.label_tag }} {{ form.beneficiaries|add_class:"form-control"|attr:"placeholder:Enter beneficiaries" }}
+            {% if form.beneficiaries.errors %}
+                {% for error in form.beneficiaries.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="checkbox">
+            {{ form.is_essential }} {{ form.is_essential.label_tag }}
+            {% if form.is_essential.errors %}
+                {% for error in form.is_essential.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="checkbox">
+            {{ form.is_effective }} {{ form.is_effective.label_tag }}
+            {% if form.is_effective.errors %}
+                {% for error in form.is_effective.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="form-group" id="is_potential" style="display:none;">
+            {% if form.is_potential.errors %}
+                {% for error in form.is_potential.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+            {{ form.is_potential.label_tag }}
+            {% for radio in form.is_potential %}
+                <label class="radio-inline">
+                    {{ radio.tag }} {{ radio.choice_label }}
+                </label>
+            {% endfor %}
+        </div>
+    </form>
+{% endblock %}

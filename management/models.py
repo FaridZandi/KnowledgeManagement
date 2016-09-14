@@ -78,21 +78,22 @@ class ScientificArea(models.Model):
     title = models.CharField(max_length=200)
     summary = models.TextField()
     # TODO: in the forms change the widget to radio select
-    is_main = models.BooleanField(name="نوع:", choices=[(True, "اصلی"), (False, "فرعی")])
-    main_area = models.OneToOneField('ScientificArea', related_name='main_scientific_area', blank=True, null=True)
+    is_main = models.BooleanField(verbose_name="نوع:", choices=[(True, "اصلی"), (False, "فرعی")])
 
-    activity_and_method_of_operation = models.ManyToManyField(MoaChoice,name="فعالیت و شیوه ی کاری:")
+    main_area = models.OneToOneField(to="ScientificArea", related_name='main_scientific_area', blank=True, null=True)
 
-    intellectualProperty = models.ManyToManyField(IntellectualPropertyChoice, name = "سرمایه های فکری:")
+    activity_and_method_of_operation = models.ManyToManyField(MoaChoice,verbose_name="فعالیت و شیوه ی کاری:")
+
+    intellectualProperty = models.ManyToManyField(IntellectualPropertyChoice, verbose_name = "سرمایه های فکری:")
     learning_methods = models.TextField()
     innovation_and_technology = models.TextField()
     beneficiaries = models.TextField()
 
-    is_essential = models.BooleanField(name = "حیاتی برای پروژه.")
+    is_essential = models.BooleanField(verbose_name= "حیاتی برای پروژه.",default=False)
 
-    is_effective = models.BooleanField(name = "در انجام پروژه موثر است.")
+    is_effective = models.BooleanField(verbose_name= "در انجام پروژه موثر است.",default=False)
 
-    is_potential = models.BooleanField(name=" ", choices=[(True, "بالقوه"), (False, "بالفعل")])
+    is_potential = models.BooleanField(verbose_name="تاثیر ", choices=[(True, "بالقوه"), (False, "بالفعل")],default=False)
 
 
 class Paper(models.Model):
@@ -162,3 +163,10 @@ class DocumentationKeyword(models.Model):
     documentation = models.ForeignKey(Documentation, related_name="keywords")
 
 
+class ScientificPackage(models.Model):
+    title = models.CharField(max_length=200)
+    scientificArea = models.ForeignKey(ScientificArea)
+
+
+    project = models.ForeignKey(Project)
+    plan = models.ForeignKey(Plan)
