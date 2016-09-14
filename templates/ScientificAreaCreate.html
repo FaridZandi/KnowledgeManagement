@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block head %}
+    <title>New scientific area</title>
+    <script>
+    $(document).ready(function () {
+        $("input[name=is_main]").change(function (){
+            if($(this).val()=="True")
+            {
+                $("#khar").hide()
+            }
+            else {
+                $("#khar").show()
+            }
+        })
+    })
+    </script>
+{% endblock %}
+{% block content %}
+    <form action="" method="post" class="form-horizontal">
+    {% csrf_token %}
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <p class="text-danger" style="font-size:small">{{ error }}</p>
+            {% endfor%}
+        {% endif %}
+        <div class="form-group">
+            {{ form.title.label_tag }} {{ form.title|add_class:"form-control"|attr:"placeholder:Enter title" }}
+            {% if form.title.errors %}
+                {% for error in form.title.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form.summary.label_tag }} {{ form.summary|add_class:"form-control"|attr:"placeholder:Enter title" }}
+            {% if form.summary.errors %}
+                {% for error in form.summary.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {% if form.is_main.errors %}
+                {% for error in form.is_main.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+            {{ form.is_main.label_tag }}
+            {% for radio in form.is_main %}
+                <label class="radio-inline">
+                    {{ radio.tag }} {{ radio.choice_label}}
+                </label>
+            {% endfor %}
+
+        </div>
+    <div id="khar" class="form-group">
+            {{ form.main_area.label_tag }} {{ form.main_area }}
+
+    </div>
+
+    <input type="submit" value="Submit" class="btn btn-success">
+    </form>
+{% endblock %}
