@@ -27,11 +27,8 @@ class ScientificActivityForm(forms.ModelForm):
 class ScientificAreaForm(forms.ModelForm):
     def __init__(self,*args,**kwargs):
         super(ScientificAreaForm,self).__init__(*args,**kwargs)
-        self.fields['is_main'].empty_label = None
-        for field_name in self.fields:
-            field= self.fields.get(field_name)
-            if field and isinstance(field,forms.TypedChoiceField):
-                field.choices=field.choices[1:]
+        self.fields['is_main'].choices=self.fields['is_main'].choices[1:]
+
 
     class Meta:
         model = ScientificArea
