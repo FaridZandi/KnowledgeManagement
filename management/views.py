@@ -45,6 +45,7 @@ class PlanFormUpdateView(UpdateView):
 
     # esm form va object ro chegoone mitavan taghiir dad ?
 
+
 class PlanFormDeleteView(DeleteView):
     model = Plan
     template_name = 'planFormDelete.html'
