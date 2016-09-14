@@ -1,94 +1,88 @@
-{%  extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% load widget_tweaks %}
 
 {% block head %}
     <title> Forms </title>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
         });
     </script>
 {% endblock %}
 
 {% block content %}
-    <div>
-        <form action="" method="post" class="form-horizontal">
-            {% csrf_token %}
+    <div class="row">
+        <div class="col-sm-10 col-sm-push-1">
+            <form action="" method="post" class="form-horizontal">
+                {% csrf_token %}
 
-            <div class="form-group" id="salam"> {{ projectForm.title.label_tag }} {{ projectForm.title|add_class:'form-control'|attr:"placeholder: Enter title" }} </div>
-            {% if projectForm.title.errors %}
-                {% for error in projectForm.title.errors %}
-                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
-                {% endfor %}
-            {% endif %}
-
-            <p> {{ projectForm.number.label_tag }} {{ projectForm.number|add_class:'form-control' }} </p>
-            {% if projectForm.number.errors %}
-                {% for error in projectForm.number.errors %}
-                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
-                {% endfor %}
-            {% endif %}
-
-            <div class="form-group"> {{ projectForm.start_date.label_tag }} {{ projectForm.start_date|add_class:"datepicker"}} </div>
-            {% if projectForm.start_date.errors %}
-                {% for error in projectForm.start_date.errors %}
-                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
-                {% endfor %}
-            {% endif %}
-
-            <div class="form-group"> {{ projectForm.end_date.label_tag }} {{ projectForm.end_date|add_class:"datepicker"}} </div>
-            {% if projectForm.end_date.errors %}
-                {% for error in projectForm.end_date.errors %}
-                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
-                {% endfor %}
-            {% endif %}
-
-            <div class="row">
-                <div class="col-md-2">
+                <div class="form-group">
+                    {{ projectForm.title.label_tag }} {{ projectForm.title|add_class:'form-control'|attr:"placeholder: Enter title" }}
+                    {% if projectForm.title.errors %}
+                        {% for error in projectForm.title.errors %}
+                            <p class="text-danger" style="font-size: small"> {{ error }} </p>
+                        {% endfor %}
+                    {% endif %}
                 </div>
-                <div class="col-md-2">
-                    <table id="project_goals_table">
-                        <tr id="project_goals_table_tr">
-                            <td id="project_goal_td_1">
-                                <input type="text" name="project_goal_1" id="project_goal_1"/>
-                            </td>
-                        </tr>
-                    </table>
+
+                <div class="form-group">
+                    {{ projectForm.number.label_tag }} {{ projectForm.number|add_class:'form-control' }}
+                    {% if projectForm.number.errors %}
+                        {% for error in projectForm.number.errors %}
+                            <p class="text-danger" style="font-size: small"> {{ error }} </p>
+                        {% endfor %}
+                    {% endif %}
                 </div>
-            </div>
 
-            <p> {{ projectForm.importance.label_tag }} {{ projectForm.importance|add_class:'form-control' }} </p>
-            {% if projectForm.importance.errors %}
-                {% for error in projectForm.importance.errors %}
-                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
-                {% endfor %}
-            {% endif %}
+                <div class="form-group">
+                    {{ projectForm.start_date.label_tag }} {{ projectForm.start_date|add_class:"form-control datepicker" }}
+                    {% if projectForm.start_date.errors %}
+                        {% for error in projectForm.start_date.errors %}
+                            <p class="text-danger" style="font-size: small"> {{ error }} </p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
 
-            <p> {{ projectForm.abstract.label_tag }} {{ projectForm.abstract|add_class:'form-control' }} </p>
-            {% if projectForm.abstract.errors %}
-                {% for error in projectForm.abstract.errors %}
-                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
-                {% endfor %}
-            {% endif %}
+                <div class="form-group">
+                    {{ projectForm.end_date.label_tag }} {{ projectForm.end_date|add_class:"form-control datepicker" }}
+                    {% if projectForm.end_date.errors %}
+                        {% for error in projectForm.end_date.errors %}
+                            <p class="text-danger" style="font-size: small"> {{ error }} </p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
 
-            <p> {{ projectForm.result.label_tag }} {{ projectForm.result|add_class:'form-control' }} </p>
-            {% if projectForm.result.errors %}
-                {% for error in projectForm.result.errors %}
-                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
-                {% endfor %}
-            {% endif %}
 
-            {% for checkbox in projectForm.tests %}
-                {{ checkbox.tag }} {{ checkbox.choice_label }}
-            {% endfor %}
+                <div class="form-group">
+                    {{ projectForm.importance.label_tag }} {{ projectForm.importance|add_class:'form-control' }}
+                    {% if projectForm.importance.errors %}
+                        {% for error in projectForm.importance.errors %}
+                            <p class="text-danger" style="font-size: small"> {{ error }} </p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
 
-            {% if projectForm.tests.errors %}
-                {% for error in projectForm.tests.errors %}
-                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
-                {% endfor %}
-            {% endif %}
+                <div class="form-group">
+                    {{ projectForm.abstract.label_tag }} {{ projectForm.abstract|add_class:'form-control' }}
+                    {% if projectForm.abstract.errors %}
+                        {% for error in projectForm.abstract.errors %}
+                            <p class="text-danger" style="font-size: small"> {{ error }} </p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
 
-            <input type="submit" value="Submit" class="btn btn-success">
-        </form>
+                <div class="form-group">
+                    {{ projectForm.result.label_tag }} {{ projectForm.result|add_class:'form-control' }}
+                    {% if projectForm.result.errors %}
+                        {% for error in projectForm.result.errors %}
+                            <p class="text-danger" style="font-size: small"> {{ error }} </p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <input type="submit" value="Submit" class="btn btn-success">
+            </form>
+        </div>
     </div>
+
 {% endblock %}
