@@ -57,7 +57,6 @@ class ScientificActivityCreateView(TemplateView):
         scientificActivityForm=ScientificActivityForm(request.POST)
         if(scientificActivityForm.is_valid()):
             scientificActivityForm.save()
-        scientificActivityForm=ScientificActivityForm
         return render(request, 'scientificActivityCreate.html', {'form':scientificActivityForm})
 
 class ScientificActivityUpdateView(UpdateView):
