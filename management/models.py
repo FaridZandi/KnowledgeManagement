@@ -163,3 +163,10 @@ class DocumentationKeyword(models.Model):
     documentation = models.ForeignKey(Documentation, related_name="keywords")
 
 
+class ScientificPackage(models.Model):
+    title = models.CharField(max_length=200)
+    scientificArea = models.ForeignKey(ScientificArea)
+
+
+    project = models.ForeignKey(Project)
+    plan = models.ForeignKey(Plan)
