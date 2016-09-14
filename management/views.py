@@ -35,7 +35,6 @@ class PlanFormView(TemplateView):
         planForm = PlanForm(request.POST)
         if planForm.is_valid():
             planForm.save()
-        planForm = PlanForm
         return render(request, 'planForm.html', {'planForm' : planForm})
 
 class PlanFormUpdateView(UpdateView):
