@@ -35,7 +35,6 @@ class PlanFormView(TemplateView):
         planForm = PlanForm(request.POST)
         if planForm.is_valid():
             planForm.save()
-        planForm = PlanForm
         return render(request, 'planForm.html', {'planForm' : planForm})
 
 class PlanFormUpdateView(UpdateView):
@@ -45,6 +44,7 @@ class PlanFormUpdateView(UpdateView):
     success_url = '/plan/new'
 
     # esm form va object ro chegoone mitavan taghiir dad ?
+
 
 class PlanFormDeleteView(DeleteView):
     model = Plan
@@ -57,7 +57,6 @@ class ScientificActivityCreateView(TemplateView):
         scientificActivityForm=ScientificActivityForm(request.POST)
         if(scientificActivityForm.is_valid()):
             scientificActivityForm.save()
-        scientificActivityForm=ScientificActivityForm
         return render(request, 'scientificActivityCreate.html', {'form':scientificActivityForm})
 
 class ScientificActivityUpdateView(UpdateView):
