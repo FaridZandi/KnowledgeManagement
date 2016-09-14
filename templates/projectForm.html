@@ -35,7 +35,7 @@
         <form action="" method="post" class="form-horizontal">
             {% csrf_token %}
 
-            <div class="form-group"> {{ projectForm.title.label_tag }} {{ projectForm.title|add_class:'form-control'|attr:"placeholder: Enter title" }} </div>
+            <div class="form-group" id="salam"> {{ projectForm.title.label_tag }} {{ projectForm.title|add_class:'form-control'|attr:"placeholder: Enter title" }} </div>
             {% if projectForm.title.errors %}
                 {% for error in projectForm.title.errors %}
                     <p class="text-danger" style="font-size: small" > {{ error }} </p>
