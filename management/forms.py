@@ -1,3 +1,5 @@
+from django.forms import ModelChoiceField
+
 from management.models import *
 from django import forms
 
@@ -24,7 +26,15 @@ class ScientificActivityForm(forms.ModelForm):
         widgets = {'output': forms.CheckboxSelectMultiple(),'implicit_scientific_pen':forms.CheckboxSelectMultiple(),'explicit_scientific_pen':forms.CheckboxSelectMultiple()}
 
 class ScientificAreaForm(forms.ModelForm):
+    def __init__(self,*args,**kwargs):
+        super(ScientificAreaForm,self).__init__(*args,**kwargs)
+        self.fields['is_main'].empty_label = None
+        for field_name in self.fields:
+            field= self.fields.get(field_name)
+            if field and isinstance(field,forms.TypedChoiceField):
+                field.choices=field.choices[1:]
+
     class Meta:
         model = ScientificArea
         fields='__all__'
-        #
+        widgets={'is_main':forms.RadioSelect(),'activity_and_method_of_operation':forms.CheckboxSelectMultiple(),'intellectualProperty':forms.CheckboxSelectMultiple(),'is_potential':forms.RadioSelect()}

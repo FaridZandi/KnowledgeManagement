@@ -69,3 +69,12 @@ class ScientificActivityDeleteView(DeleteView):
     model=ScientificActivity
     template_name = "scientificActivityDelete.html"
     success_url = "/scientificactivity/new/"
+
+class ScientificAreaCreateView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'scientificAreaCreate.html', {'form':ScientificAreaForm})
+    def post(self,request,*args,**kwargs):
+        scientificAreaForm=ScientificAreaForm(request.POST)
+        if(scientificAreaForm.is_valid()):
+            scientificAreaForm.save()
+        return render(request, 'scientificAreaCreate.html', {'form':scientificAreaForm})
