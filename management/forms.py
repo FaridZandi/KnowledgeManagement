@@ -22,3 +22,8 @@ class ScientificActivityForm(forms.ModelForm):
         model = ScientificActivity
         fields = ['title','output','implicit_scientific_pen','explicit_scientific_pen']
         widgets = {'output': forms.CheckboxSelectMultiple(),'implicit_scientific_pen':forms.CheckboxSelectMultiple(),'explicit_scientific_pen':forms.CheckboxSelectMultiple()}
+
+class ScientificAreaForm(forms.ModelForm):
+    class Meta:
+        model = ScientificArea
+        fields='__all__'
