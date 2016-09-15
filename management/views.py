@@ -97,8 +97,38 @@ class ScientificAreaDeleteView(DeleteView):
 
 class DocumentationView(TemplateView):
     def get(self, request, *args, **kwargs ):
-        return render(request, 'documentationCreate.html', {'form':DocumentationForm})
+        return render(request, 'DocumentationCreate.html', {'form':DocumentationForm})
 
     def post(self, request, *args, **kwargs):
         documentationForm = DocumentationForm(request.POST)
-        return HttpResponse('ok')
+        flag=False
+        for i in range (1,int(request.POST['suggested-solution-count'])+1):
+            str1 = 'suggested-solution-title-input-' + str(i)
+            str2 = 'suggested-solution-body-input-' + str(i)
+            if str1 in request.POST :
+                if len(request.POST[str1]) > 0 or len(request.POST[str2]) > 0:
+                    flag = True
+                    break
+        if not flag :
+            documentationForm.add_error("","no suggested solution")
+            return render(request, 'DocumentationCreate.html', {'form':documentationForm})
+
+        minKeywordsCnt = 1
+        flagCnt = 0
+        for i in range (1, int(request.POST['keywords-count'])+1) :
+            str1 = 'keywords-input-' + str(i)
+            if str1 in request.POST and  len(request.POST[str1]) > 0 :
+                flagCnt += 1
+        if flagCnt < minKeywordsCnt :
+            documentationForm.add_error("","not enough key words")
+            return render(request, 'DocumentationCreate.html', {'form':documentationForm})
+
+
+        if documentationForm.is_valid() :
+            newDocumentation = documentationForm.save()
+            documentationForm=DocumentationForm
+
+
+
+        return render(request, 'DocumentationCreate.html', {'form':documentationForm})
+

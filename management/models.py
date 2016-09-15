@@ -153,7 +153,7 @@ class Documentation(models.Model):
     # TODO : still no Person Model so I can't add this one
     person = "to be added"
     role = models.CharField(max_length=200)
-    project = models.OneToOneField(Project)
+    project = models.ForeignKey(Project)
     activity = models.CharField(max_length=200)
     problem_title = models.CharField(max_length=200)
     problem_description = models.TextField()

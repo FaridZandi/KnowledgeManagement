@@ -58,6 +58,7 @@
 		function addNewSuggestedSolution(){
             suggestedSolutionsDiv = $('#suggested-solution');
 			lastAddedSuggestedSolution ++;
+            $('#suggested-solution-count').val(lastAddedSuggestedSolution);
 			var number = lastAddedSuggestedSolution;
 
 			var appendingData =
@@ -119,6 +120,7 @@
 		function addNewKeywords(){
             keywordsDiv = $('#keywords');
 			lastAddedKeywords ++;
+            $('#keywords-count').val(lastAddedKeywords);
 			var number = lastAddedKeywords;
 
 			var appendingData = '<div class="col-md-3">'+
@@ -237,6 +239,7 @@
         </div>
 
         <div class="row">
+            <input type="hidden" name="suggested-solution-count" id="suggested-solution-count" value="1" />
 			<div class="col-md-1">
 				راه حل های پیشنهادی :
 			</div>
@@ -268,6 +271,7 @@
 
 
         <div class="row">
+             <input type="hidden" name="keywords-count" id="keywords-count" value="1" />
 			<div class="col-md-1">
 				کلمات کلیدی :
 			</div>
