@@ -81,11 +81,6 @@ class ScientificAreaCreateView(TemplateView):
         if(scientificAreaForm.is_valid()):
             scientificAreaForm.save()
             scientificAreaForm=ScientificAreaForm
-        else:
-            a = ''
-            for error in scientificAreaForm.errors:
-                a += error
-            return HttpResponse(a)
         return render(request, 'scientificAreaCreate.html', {'form':scientificAreaForm})
 
 class ScientificAreaUpdateView(UpdateView):
