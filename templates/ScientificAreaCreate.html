@@ -2,6 +2,11 @@
 {% load widget_tweaks %}
 {% block head %}
     <title>New scientific area</title>
+    <style>
+        .second-level-input {
+            margin-right: 20px;
+        }
+    </style>
     <script>
         $(document).ready(function () {
             $("input[name=is_main]").change(function () {
@@ -102,7 +107,7 @@
             <div class="checkbox">
                 {{ form.activity_and_method_of_operation.0.tag }} {{ form.activity_and_method_of_operation.0.choice_label }}
             </div>
-            <div  id="intellectualProperty" style="display:none;">
+            <div class="second-level-input" id="intellectualProperty" style="display:none;">
                 {% if form.intellectualProperty.errors %}
                     {% for error in form.intellectualProperty.errors %}
                         <p class="text-danger" style="font-size:small">{{ error }}</p>
@@ -118,7 +123,7 @@
                 {{ form.activity_and_method_of_operation.1.tag }} {{ form.activity_and_method_of_operation.1.choice_label }}
             </div>
             <div class="form-group" id="learning_methods" style="display:none">
-                 {{ form.learning_methods|add_class:"form-control"|attr:"placeholder:Enter learning method" }}
+                {{ form.learning_methods|add_class:"form-control  second-level-input"|attr:"placeholder:Enter learning method" }}
                 {% if form.learning_methods.errors %}
                     {% for error in form.learning_methods.errors %}
                         <p class="text-danger" style="font-size:small">{{ error }}</p>
@@ -129,7 +134,7 @@
                 {{ form.activity_and_method_of_operation.2.tag }} {{ form.activity_and_method_of_operation.2.choice_label }}
             </div>
             <div class="form-group" id="innovation_and_technology" style="display: none;">
-                 {{ form.innovation_and_technology|add_class:"form-control"|attr:"placeholder:Enter innovation and technology" }}
+                {{ form.innovation_and_technology|add_class:"form-control second-level-input"|attr:"placeholder:Enter innovation and technology" }}
                 {% if form.innovation_and_technology.errors %}
                     {% for error in form.innovation_and_technology.errors %}
                         <p class="text-danger" style="font-size:small">{{ error }}</p>
@@ -140,7 +145,7 @@
                 {{ form.activity_and_method_of_operation.3.tag }} {{ form.activity_and_method_of_operation.3.choice_label }}
             </div>
             <div class="form-group" id="beneficiaries" style="display: none;">
-                {{ form.beneficiaries|add_class:"form-control"|attr:"placeholder:Enter beneficiaries" }}
+                {{ form.beneficiaries|add_class:"form-control  second-level-input"|attr:"placeholder:Enter beneficiaries" }}
                 {% if form.beneficiaries.errors %}
                     {% for error in form.beneficiaries.errors %}
                         <p class="text-danger" style="font-size:small">{{ error }}</p>
@@ -148,7 +153,7 @@
                 {% endif %}
             </div>
         </div>
-
+        <br>
 
         <div class="checkbox">
             {{ form.is_essential }} {{ form.is_essential.label_tag }}
@@ -179,5 +184,6 @@
                 </label>
             {% endfor %}
         </div>
+        <input type="submit" value="Submit" class="btn btn-success">
     </form>
 {% endblock %}
