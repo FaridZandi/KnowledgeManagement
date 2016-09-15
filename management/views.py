@@ -1,3 +1,4 @@
+from django.shortcuts import HttpResponse
 from django.shortcuts import render
 from django.views.generic import DeleteView
 from django.views.generic import TemplateView
@@ -21,6 +22,7 @@ class projectFormView(TemplateView):
         if projectForm.is_valid():
             projectForm.save()
             projectForm.seve_m2m()
+            projectForm=ProjectForm
         projects = Project.objects.all()
         return render(request, 'projectForm.html', {'projects' : projects, 'projectForm' : projectForm})
 
@@ -34,6 +36,7 @@ class PlanFormView(TemplateView):
         planForm = PlanForm(request.POST)
         if planForm.is_valid():
             planForm.save()
+            planForm=PlanForm
         return render(request, 'planForm.html', {'planForm' : planForm})
 
 class PlanFormUpdateView(UpdateView):
@@ -56,6 +59,7 @@ class ScientificActivityCreateView(TemplateView):
         scientificActivityForm=ScientificActivityForm(request.POST)
         if(scientificActivityForm.is_valid()):
             scientificActivityForm.save()
+            scientificActivityForm=ScientificActivityForm
         return render(request, 'scientificActivityCreate.html', {'form':scientificActivityForm})
 
 class ScientificActivityUpdateView(UpdateView):
@@ -76,4 +80,6 @@ class ScientificAreaCreateView(TemplateView):
         scientificAreaForm=ScientificAreaForm(request.POST)
         if(scientificAreaForm.is_valid()):
             scientificAreaForm.save()
+            scientificAreaForm=ScientificAreaForm
+
         return render(request, 'scientificAreaCreate.html', {'form':scientificAreaForm})

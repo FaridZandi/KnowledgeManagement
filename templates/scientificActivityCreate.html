@@ -6,11 +6,11 @@
 
 {% block content %}
     <form action="" method="post" class="form-horizontal">
-    {% csrf_token %}
+        {% csrf_token %}
         {% if form.non_field_errors %}
             {% for error in form.non_field_errors %}
                 <p class="text-danger" style="font-size:small">{{ error }}</p>
-            {% endfor%}
+            {% endfor %}
         {% endif %}
         <div class="form-group">
             {{ form.title.label_tag }} {{ form.title|add_class:"form-control"|attr:"placeholder:Enter title" }}
@@ -21,43 +21,43 @@
             {% endif %}
         </div>
         <div class="form-group">
-            {% if form.output.errors %}
-                {% for error in form.output.errors %}
-                    <p class="text-danger" style="font-size:small">{{ error }}</p>
-                {% endfor %}
-            {% endif %}
             {{ form.output.label_tag }}
             {% for checkbox in form.output %}
                 <div class="checkbox">
                     {{ checkbox.tag }} {{ checkbox.choice_label }}
                 </div>
             {% endfor %}
-        </div>
-            <div class="form-group">
-                {% if form.implicit_scientific_pen.errors %}
-                {% for error in form.implicit_scientific_pen.errors %}
+            {% if form.output.errors %}
+                {% for error in form.output.errors %}
                     <p class="text-danger" style="font-size:small">{{ error }}</p>
                 {% endfor %}
             {% endif %}
+        </div>
+        <div class="form-group">
             {{ form.implicit_scientific_pen.label_tag }}
             {% for checkbox in form.implicit_scientific_pen %}
                 <div class="checkbox">
                     {{ checkbox.tag }} {{ checkbox.choice_label }}
                 </div>
             {% endfor %}
-        </div>
-        <div class="form-group">
-            {% if form.explicit_scientific_pen.errors %}
-                {% for error in form.explicit_scientific_pen.errors %}
+            {% if form.implicit_scientific_pen.errors %}
+                {% for error in form.implicit_scientific_pen.errors %}
                     <p class="text-danger" style="font-size:small">{{ error }}</p>
                 {% endfor %}
             {% endif %}
+        </div>
+        <div class="form-group">
             {{ form.explicit_scientific_pen.label_tag }}
             {% for checkbox in form.explicit_scientific_pen %}
                 <div class="checkbox">
                     {{ checkbox.tag }} {{ checkbox.choice_label }}
                 </div>
             {% endfor %}
+            {% if form.explicit_scientific_pen.errors %}
+                {% for error in form.explicit_scientific_pen.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
         </div>
         <input type="submit" value="Submit" class="btn btn-success">
     </form>

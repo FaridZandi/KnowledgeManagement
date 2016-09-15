@@ -86,9 +86,9 @@ class ScientificArea(models.Model):
 
     main_area = models.OneToOneField(to="ScientificArea", related_name='main_scientific_area', blank=True, null=True)
 
-    activity_and_method_of_operation = models.ManyToManyField(MoaChoice,verbose_name="فعالیت و شیوه ی کاری:")
+    activity_and_method_of_operation = models.ManyToManyField(MoaChoice,verbose_name="فعالیت و شیوه ی کاری:",blank=True,null=True)
 
-    intellectualProperty = models.ManyToManyField(IntellectualPropertyChoice, verbose_name = "سرمایه های فکری:")
+    intellectualProperty = models.ManyToManyField(IntellectualPropertyChoice, verbose_name = "سرمایه های فکری:",blank=True,null=True)
     learning_methods = models.TextField(null=True, blank=True)
     innovation_and_technology = models.TextField(null=True, blank=True)
     beneficiaries = models.TextField(null=True, blank=True)
@@ -98,6 +98,9 @@ class ScientificArea(models.Model):
     is_effective = models.BooleanField(verbose_name= "در انجام پروژه موثر است.", default=False)
 
     is_potential = models.BooleanField(verbose_name="تاثیر ", choices=[(True, "بالقوه"), (False, "بالفعل")], default=False)
+
+    def __str__(self):
+        return self.title
 
 
 class Paper(models.Model):

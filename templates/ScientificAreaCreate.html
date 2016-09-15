@@ -76,17 +76,17 @@
             {% endif %}
         </div>
         <div class="form-group">
-            {% if form.is_main.errors %}
-                {% for error in form.is_main.errors %}
-                    <p class="text-danger" style="font-size:small">{{ error }}</p>
-                {% endfor %}
-            {% endif %}
             {{ form.is_main.label_tag }}
             {% for radio in form.is_main %}
                 <label class="radio-inline">
                     {{ radio.tag }} {{ radio.choice_label }}
                 </label>
             {% endfor %}
+            {% if form.is_main.errors %}
+                {% for error in form.is_main.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
 
         </div>
         <div id="main_area" class="form-group" style="display:none;">
@@ -98,26 +98,21 @@
             {% endif %}
         </div>
         <div>
-            {% if form.activity_and_method_of_operation.errors %}
-                {% for error in form.activity_and_method_of_operation.errors %}
-                    <p class="text-danger" style="font-size:small">{{ error }}</p>
-                {% endfor %}
-            {% endif %}
             {{ form.activity_and_method_of_operation.label_tag }}
             <div class="checkbox">
                 {{ form.activity_and_method_of_operation.0.tag }} {{ form.activity_and_method_of_operation.0.choice_label }}
             </div>
             <div class="second-level-input" id="intellectualProperty" style="display:none;">
-                {% if form.intellectualProperty.errors %}
-                    {% for error in form.intellectualProperty.errors %}
-                        <p class="text-danger" style="font-size:small">{{ error }}</p>
-                    {% endfor %}
-                {% endif %}
                 {% for checkbox in form.intellectualProperty %}
                     <div class="checkbox">
                         {{ checkbox.tag }} {{ checkbox.choice_label }}
                     </div>
                 {% endfor %}
+                {% if form.intellectualProperty.errors %}
+                    {% for error in form.intellectualProperty.errors %}
+                        <p class="text-danger" style="font-size:small">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
             </div>
             <div class="checkbox">
                 {{ form.activity_and_method_of_operation.1.tag }} {{ form.activity_and_method_of_operation.1.choice_label }}
@@ -152,6 +147,11 @@
                     {% endfor %}
                 {% endif %}
             </div>
+            {% if form.activity_and_method_of_operation.errors %}
+                {% for error in form.activity_and_method_of_operation.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
         </div>
         <br>
 
@@ -172,17 +172,17 @@
             {% endif %}
         </div>
         <div id="is_potential" style="display:none;">
-            {% if form.is_potential.errors %}
-                {% for error in form.is_potential.errors %}
-                    <p class="text-danger" style="font-size:small">{{ error }}</p>
-                {% endfor %}
-            {% endif %}
             {{ form.is_potential.label_tag }}
             {% for radio in form.is_potential %}
                 <label class="radio-inline">
                     {{ radio.tag }} {{ radio.choice_label }}
                 </label>
             {% endfor %}
+            {% if form.is_potential.errors %}
+                {% for error in form.is_potential.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
         </div>
         <input type="submit" value="Submit" class="btn btn-success">
     </form>
