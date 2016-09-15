@@ -81,5 +81,15 @@ class ScientificAreaCreateView(TemplateView):
         if(scientificAreaForm.is_valid()):
             scientificAreaForm.save()
             scientificAreaForm=ScientificAreaForm
-
         return render(request, 'scientificAreaCreate.html', {'form':scientificAreaForm})
+
+class ScientificAreaUpdateView(UpdateView):
+    model=ScientificArea
+    form_class = ScientificAreaForm
+    template_name = "scientificAreaUpdate.html"
+    success_url = "/scientificarea/new/"
+
+class ScientificAreaDeleteView(DeleteView):
+    model=ScientificArea
+    template_name = "scientificAreaDelete.html"
+    success_url = "/scientificarea/new/"
