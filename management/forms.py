@@ -41,3 +41,7 @@ class ScientificAreaForm(forms.ModelForm):
         widgets={'is_main':forms.RadioSelect(),'activity_and_method_of_operation':forms.CheckboxSelectMultiple(),'intellectualProperty':forms.CheckboxSelectMultiple(),'is_potential':forms.RadioSelect()}
 
 
+class DocumentationForm(forms.ModelForm):
+    class Meta:
+        model = Documentation
+        fields = '__all__'
