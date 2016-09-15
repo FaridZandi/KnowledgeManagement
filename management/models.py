@@ -68,10 +68,14 @@ class ScientificActivity(models.Model):
 
 class MoaChoice(models.Model):
     name = models.CharField(max_length=20)
+    def __str__(self):
+        return self.name
 
 
 class IntellectualPropertyChoice(models.Model):
     name = models.CharField(max_length=30)
+    def __str__(self):
+        return self.name
 
 
 class ScientificArea(models.Model):

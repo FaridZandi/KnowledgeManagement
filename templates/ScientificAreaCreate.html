@@ -13,13 +13,37 @@
                 }
             });
             $("#id_is_effective").change(function () {
-                if ($('#id_is_effective').is(":checked")) {
+                if ($('#id_is_effective').is(":checked"))
                     $("#is_potential").show();
-                } else {
+                else
                     $("#is_potential").hide();
-                }
-            })
-        })
+
+            });
+            $("#id_activity_and_method_of_operation_0").change(function () {
+                if ($("#id_activity_and_method_of_operation_0").is(":checked"))
+                    $("#intellectualProperty").show();
+                else
+                    $("#intellectualProperty").hide();
+            });
+            $("#id_activity_and_method_of_operation_1").change(function () {
+                if ($("#id_activity_and_method_of_operation_1").is(":checked"))
+                    $("#learning_methods").show();
+                else
+                    $("#learning_methods").hide();
+            });
+            $("#id_activity_and_method_of_operation_2").change(function () {
+                if ($("#id_activity_and_method_of_operation_2").is(":checked"))
+                    $("#innovation_and_technology").show();
+                else
+                    $("#innovation_and_technology").hide();
+            });
+            $("#id_activity_and_method_of_operation_3").change(function () {
+                if ($("#id_activity_and_method_of_operation_3").is(":checked"))
+                    $("#beneficiaries").show();
+                else
+                    $("#beneficiaries").hide();
+            });
+        });
     </script>
 {% endblock %}
 {% block content %}
@@ -68,56 +92,64 @@
                 {% endfor %}
             {% endif %}
         </div>
-        <div class="form-group">
+        <div>
             {% if form.activity_and_method_of_operation.errors %}
                 {% for error in form.activity_and_method_of_operation.errors %}
                     <p class="text-danger" style="font-size:small">{{ error }}</p>
                 {% endfor %}
             {% endif %}
             {{ form.activity_and_method_of_operation.label_tag }}
-            {% for checkbox in form.activity_and_method_of_operation %}
-                <div class="checkbox">
-                    {{ checkbox.tag }} {{ checkbox.choice_label }}
-                </div>
-            {% endfor %}
-        </div>
-        <div class="form-group">
-            {% if form.intellectualProperty.errors %}
-                {% for error in form.intellectualProperty.errors %}
-                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+            <div class="checkbox">
+                {{ form.activity_and_method_of_operation.0.tag }} {{ form.activity_and_method_of_operation.0.choice_label }}
+            </div>
+            <div  id="intellectualProperty" style="display:none;">
+                {% if form.intellectualProperty.errors %}
+                    {% for error in form.intellectualProperty.errors %}
+                        <p class="text-danger" style="font-size:small">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+                {% for checkbox in form.intellectualProperty %}
+                    <div class="checkbox">
+                        {{ checkbox.tag }} {{ checkbox.choice_label }}
+                    </div>
                 {% endfor %}
-            {% endif %}
-            {{ form.intellectualProperty.label_tag }}
-            {% for checkbox in form.intellectualProperty %}
-                <div class="checkbox">
-                    {{ checkbox.tag }} {{ checkbox.choice_label }}
-                </div>
-            {% endfor %}
+            </div>
+            <div class="checkbox">
+                {{ form.activity_and_method_of_operation.1.tag }} {{ form.activity_and_method_of_operation.1.choice_label }}
+            </div>
+            <div class="form-group" id="learning_methods" style="display:none">
+                 {{ form.learning_methods|add_class:"form-control"|attr:"placeholder:Enter learning method" }}
+                {% if form.learning_methods.errors %}
+                    {% for error in form.learning_methods.errors %}
+                        <p class="text-danger" style="font-size:small">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="checkbox">
+                {{ form.activity_and_method_of_operation.2.tag }} {{ form.activity_and_method_of_operation.2.choice_label }}
+            </div>
+            <div class="form-group" id="innovation_and_technology" style="display: none;">
+                 {{ form.innovation_and_technology|add_class:"form-control"|attr:"placeholder:Enter innovation and technology" }}
+                {% if form.innovation_and_technology.errors %}
+                    {% for error in form.innovation_and_technology.errors %}
+                        <p class="text-danger" style="font-size:small">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="checkbox">
+                {{ form.activity_and_method_of_operation.3.tag }} {{ form.activity_and_method_of_operation.3.choice_label }}
+            </div>
+            <div class="form-group" id="beneficiaries" style="display: none;">
+                {{ form.beneficiaries|add_class:"form-control"|attr:"placeholder:Enter beneficiaries" }}
+                {% if form.beneficiaries.errors %}
+                    {% for error in form.beneficiaries.errors %}
+                        <p class="text-danger" style="font-size:small">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
-        <div class="form-group">
-            {{ form.learning_methods.label_tag }} {{ form.learning_methods|add_class:"form-control"|attr:"placeholder:Enter learning method" }}
-            {% if form.learning_methods.errors %}
-                {% for error in form.learning_methods.errors %}
-                    <p class="text-danger" style="font-size:small">{{ error }}</p>
-                {% endfor %}
-            {% endif %}
-        </div>
-        <div class="form-group">
-            {{ form.innovation_and_technology.label_tag }} {{ form.innovation_and_technology|add_class:"form-control"|attr:"placeholder:Enter innovation and technology" }}
-            {% if form.innovation_and_technology.errors %}
-                {% for error in form.innovation_and_technology.errors %}
-                    <p class="text-danger" style="font-size:small">{{ error }}</p>
-                {% endfor %}
-            {% endif %}
-        </div>
-        <div class="form-group">
-            {{ form.beneficiaries.label_tag }} {{ form.beneficiaries|add_class:"form-control"|attr:"placeholder:Enter beneficiaries" }}
-            {% if form.beneficiaries.errors %}
-                {% for error in form.beneficiaries.errors %}
-                    <p class="text-danger" style="font-size:small">{{ error }}</p>
-                {% endfor %}
-            {% endif %}
-        </div>
+
+
         <div class="checkbox">
             {{ form.is_essential }} {{ form.is_essential.label_tag }}
             {% if form.is_essential.errors %}
@@ -134,7 +166,7 @@
                 {% endfor %}
             {% endif %}
         </div>
-        <div class="form-group" id="is_potential" style="display:none;">
+        <div id="is_potential" style="display:none;">
             {% if form.is_potential.errors %}
                 {% for error in form.is_potential.errors %}
                     <p class="text-danger" style="font-size:small">{{ error }}</p>
