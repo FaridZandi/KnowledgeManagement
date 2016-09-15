@@ -25,10 +25,6 @@ class ScientificActivityForm(forms.ModelForm):
         widgets = {'output': forms.CheckboxSelectMultiple(),'implicit_scientific_pen':forms.CheckboxSelectMultiple(),'explicit_scientific_pen':forms.CheckboxSelectMultiple()}
 
 class ScientificAreaForm(forms.ModelForm):
-    def __init__(self,*args,**kwargs):
-        super(ScientificAreaForm,self).__init__(*args,**kwargs)
-        self.fields['is_main'].choices=self.fields['is_main'].choices[1:]
-
 
     class Meta:
         model = ScientificArea

@@ -8,7 +8,34 @@
         }
     </style>
     <script>
+
         $(document).ready(function () {
+            if ($("input[name=is_main]").val() == "True") {
+                $("#main_area").hide()
+            }
+            else {
+                $("#main_area").show()
+            }
+            if ($('#id_is_effective').is(":checked"))
+                $("#is_potential").show();
+            else
+                $("#is_potential").hide();
+            if ($("#id_activity_and_method_of_operation_0").is(":checked"))
+                $("#intellectualProperty").show();
+            else
+                $("#intellectualProperty").hide();
+            if ($("#id_activity_and_method_of_operation_1").is(":checked"))
+                $("#learning_methods").show();
+            else
+                $("#learning_methods").hide();
+            if ($("#id_activity_and_method_of_operation_2").is(":checked"))
+                $("#innovation_and_technology").show();
+            else
+                $("#innovation_and_technology").hide();
+            if ($("#id_activity_and_method_of_operation_3").is(":checked"))
+                $("#beneficiaries").show();
+            else
+                $("#beneficiaries").hide();
             $("input[name=is_main]").change(function () {
                 if ($(this).val() == "True") {
                     $("#main_area").hide()
