@@ -92,7 +92,8 @@ class ScientificAreaUpdateView(UpdateView):
 class ScientificAreaDeleteView(DeleteView):
     model=ScientificArea
     template_name = "scientificAreaDelete.html"
-    success_url = "/scientificarea/new/"        return render(request, 'scientificAreaCreate.html', {'form':scientificAreaForm})
+    success_url = "/scientificarea/new/"
+    # return render(request, 'scientificAreaCreate.html', {'form':scientificAreaForm})
 
 class DocumentationView(TemplateView):
     def get(self, request, *args, **kwargs ):
@@ -100,3 +101,4 @@ class DocumentationView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         documentationForm = DocumentationForm(request.POST)
+        return HttpResponse('ok')
