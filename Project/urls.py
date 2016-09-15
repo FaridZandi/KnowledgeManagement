@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^plan/update/(?P<pk>\d+)/$', PlanFormUpdateView.as_view(), name= 'planFormUpdate'),
     url(r'^plan/delete/(?P<pk>\d+)/$', PlanFormDeleteView.as_view(), name= 'planFormDelete'),
     url(r'^scientificarea/new/$', ScientificAreaCreateView.as_view(), name='createAreaActivity'),
+    url(r'^documentation/new/$', DocumentationView.as_view(), name='createDocumentation'),
 ]

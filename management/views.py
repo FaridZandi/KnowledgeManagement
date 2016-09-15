@@ -83,3 +83,10 @@ class ScientificAreaCreateView(TemplateView):
             scientificAreaForm=ScientificAreaForm
 
         return render(request, 'scientificAreaCreate.html', {'form':scientificAreaForm})
+
+class DocumentationView(TemplateView):
+    def get(self, request, *args, **kwargs ):
+        return render(request, 'documentationCreate.html', {'form':DocumentationForm})
+
+    def post(self, request, *args, **kwargs):
+        documentationForm = DocumentationForm(request.POST)
