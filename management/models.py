@@ -84,13 +84,13 @@ class ScientificArea(models.Model):
     # TODO: in the forms change the widget to radio select
     is_main = models.BooleanField(verbose_name="نوع:", choices=[(True, "اصلی"), (False, "فرعی")],default=True)
 
-    main_area = models.ForeignKey(to="ScientificArea", related_name='main_scientific_area', blank=True, null=True)
+    main_area = models.ForeignKey(to="ScientificArea", related_name='main_scientific_area', default=None, blank=True, null=True)
 
-    activity_and_method_of_operation = models.ManyToManyField(MoaChoice,verbose_name="فعالیت و شیوه ی کاری:",blank=True,null=True)
+    activity_and_method_of_operation = models.ManyToManyField(MoaChoice,verbose_name="فعالیت و شیوه ی کاری:",blank=True)
 
-    intellectualProperty = models.ManyToManyField(IntellectualPropertyChoice, verbose_name = "سرمایه های فکری:",blank=True,null=True)
+    intellectualProperty = models.ManyToManyField(IntellectualPropertyChoice, verbose_name = "سرمایه های فکری:",blank=True)
     learning_methods = models.TextField(null=True, blank=True)
-    innovation_and_technology = models.TextField(null=True, blank=True)
+    innovation_and_technology = models.TextField(null=True, blank=  True)
     beneficiaries = models.TextField(null=True, blank=True)
 
     is_essential = models.BooleanField(verbose_name= "حیاتی برای پروژه.", default=False)
