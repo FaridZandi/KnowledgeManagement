@@ -16,19 +16,23 @@
 {#                    setGregorian()#}
                 }
             });
-        $(document).ready(function () {
         });
     </script>
 
-    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/prism.css' %}">
-    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/normalize.css' %}">
-    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/vertical-responsive-menu.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/main.css' %}">
+    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/prism.css' %}">
+    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/vertical-responsive-menu.min.css' %}">
+    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/persianDatepicker-default.css' %}">
+    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/persianDatepicker-dark.css' %}">
+    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/persianDatepicker-latoja.css' %}">
+    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/persianDatepicker-lightorang.css' %}">
+    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/persianDatepicker-melon.css' %}">
 
-    <script src="{% static 'js/prism.min.js' %}"></script>
-    <script src="{% static 'js/persianDatepicker.min.js' %}"></script>
-{#    <script src="{% static 'js/vertical-responsive-menu.min.js' %}"></script>#}
+    <script src="{% static 'PersianDatePicker/js/prism.min.js' %}"></script>
+    <script src="{% static 'PersianDatePicker/js/persianDatepicker.min.js' %}"></script>
+    <script src="{% static 'PersianDatePicker/js/vertical-responsive-menu.min.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -56,7 +60,7 @@
                 </div>
 
                 <div class="form-group">
-                    {{ projectForm.start_date.label_tag }} {{ projectForm.start_date|add_class:"form-control datepicker" }}
+                    {{ projectForm.start_date.label_tag }} {{ projectForm.start_date|add_class:"datepicker" }}
                     {% if projectForm.start_date.errors %}
                         {% for error in projectForm.start_date.errors %}
                             <p class="text-danger" style="font-size: small"> {{ error }} </p>
@@ -65,7 +69,7 @@
                 </div>
 
                 <div class="form-group">
-                    {{ projectForm.end_date.label_tag }} {{ projectForm.end_date|add_class:"form-control datepicker" }}
+                    {{ projectForm.end_date.label_tag }} {{ projectForm.end_date|add_class:"datepicker" }}
                     {% if projectForm.end_date.errors %}
                         {% for error in projectForm.end_date.errors %}
                             <p class="text-danger" style="font-size: small"> {{ error }} </p>
