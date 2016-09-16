@@ -26,9 +26,6 @@ class ScientificActivityForm(forms.ModelForm):
 
 
 class ScientificAreaForm(forms.ModelForm):
-
-    # main_area = ModelChoiceField(queryset=ScientificArea.objects.filter(is_main=True), empty_label=None)
-
     def __init__(self,*args,**kwargs):
         super(ScientificAreaForm,self).__init__(*args,**kwargs)
         self.fields['main_area'].queryset = ScientificArea.objects.filter(is_main=True)
