@@ -91,3 +91,8 @@ ENV/
 .ropeproject
 
 /db.sqlite3
+.gitignore
+.idea/
+Project/__pycache__/
+management/__pycache__/
+management/migrations/

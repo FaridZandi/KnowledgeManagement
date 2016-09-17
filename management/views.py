@@ -52,15 +52,20 @@ class PlanFormDeleteView(DeleteView):
     model = Plan
     template_name = 'planFormDelete.html'
     success_url = '/plan/new'
+
+
 class ScientificActivityCreateView(TemplateView):
     def get(self, request, *args, **kwargs):
         return render(request, 'scientificActivityCreate.html', {'form':ScientificActivityForm()})
-    def post(self,request,*args,**kwargs):
-        scientificActivityForm=ScientificActivityForm(request.POST)
-        if(scientificActivityForm.is_valid()):
-            scientificActivityForm.save()
-            scientificActivityForm=ScientificActivityForm
-        return render(request, 'scientificActivityCreate.html', {'form':scientificActivityForm})
+
+    def post(self, request, *args, **kwargs):
+        scientific_activity_form = ScientificActivityForm(request.POST)
+        if scientific_activity_form.is_valid():
+            scientific_activity_form.save()
+            scientific_activity_form = ScientificActivityForm
+
+        return render(request, 'scientificActivityCreate.html', {'form': scientific_activity_form})
+
 
 class ScientificActivityUpdateView(UpdateView):
     model=ScientificActivity

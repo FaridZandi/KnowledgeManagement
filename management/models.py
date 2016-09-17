@@ -1,10 +1,12 @@
+from django.core.validators import RegexValidator
 from django.db import models
 # Create your models here.
 
 
 class Plan(models.Model):
-    title = models.CharField(max_length=200)
-    number = models.CharField(max_length=20)
+    title = models.CharField(verbose_name="عنوان", max_length=200)
+    number = models.CharField(verbose_name="شماره طرح", max_length=20)
+
     def __str__(self):
         return self.title
 
@@ -15,13 +17,14 @@ class PlanGoal(models.Model):
 
 
 class Project(models.Model):
-    title = models.CharField(max_length=200)
-    number = models.CharField(max_length=20)
-    start_date = models.DateField(blank=True, null=True)
-    end_date = models.DateField(blank=True, null=True)
-    importance = models.TextField()
-    abstract = models.TextField()
-    result = models.TextField()
+    title = models.CharField(verbose_name="عنوان", max_length=200)
+    number = models.CharField(verbose_name="شماره پروژه", unique=True, max_length=20,
+                              validators=[RegexValidator(regex=r'^\d+$',message="این فیلد تنها میتواند شامل کاراکتر های عددی باشد.")])
+    start_date = models.DateField(verbose_name="تاریخ شروع", blank=True, null=True)
+    end_date = models.DateField(verbose_name="تاریخ پایان", blank=True, null=True)
+    importance = models.TextField(verbose_name="اهمیت")
+    abstract = models.TextField(verbose_name="چکیده")
+    result = models.TextField(verbose_name="نتیجه گیری")
     plan = models.ForeignKey(Plan, related_name="projects")
 
 
@@ -31,8 +34,8 @@ class ProjectGoal(models.Model):
 
 
 class ProjectStep(models.Model):
-    title = models.CharField(max_length=200)
-    body = models.TextField()
+    title = models.CharField(max_length=200, blank=True, null=True)
+    body = models.TextField(blank=True, null=True)
     project = models.ForeignKey(Project, related_name="steps")
 
 
@@ -44,20 +47,24 @@ class ProjectExecutor(models.Model):
 
 class OutputChoice(models.Model):
     name = models.CharField(max_length=30)
+
     def __str__(self):
         return self.name
 
 
 class ImplicitPenChoices(models.Model):
     name = models.CharField(max_length=30)
+
     def __str__(self):
         return self.name
 
 
 class ExplicitPenChoices(models.Model):
     name = models.CharField(max_length=30)
+
     def __str__(self):
         return self.name
+
 
 class ScientificActivity(models.Model):
     title = models.CharField(max_length=200)
@@ -68,12 +75,14 @@ class ScientificActivity(models.Model):
 
 class MoaChoice(models.Model):
     name = models.CharField(max_length=20)
+
     def __str__(self):
         return self.name
 
 
 class IntellectualPropertyChoice(models.Model):
     name = models.CharField(max_length=30)
+
     def __str__(self):
         return self.name
 
