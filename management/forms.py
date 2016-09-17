@@ -24,10 +24,13 @@ class ScientificActivityForm(forms.ModelForm):
         fields = ['title','output','implicit_scientific_pen','explicit_scientific_pen']
         widgets = {'output': forms.CheckboxSelectMultiple(),'implicit_scientific_pen':forms.CheckboxSelectMultiple(),'explicit_scientific_pen':forms.CheckboxSelectMultiple()}
 
+
 class ScientificAreaForm(forms.ModelForm):
     def __init__(self,*args,**kwargs):
         super(ScientificAreaForm,self).__init__(*args,**kwargs)
-        self.fields['main_area'].queryset=ScientificArea.objects.filter(is_main=True)
+        self.fields['main_area'].queryset = ScientificArea.objects.filter(is_main=True)
+        if len(self.fields['main_area'].queryset) != 0:
+            self.fields['main_area'].empty_label = None
 
     class Meta:
         model = ScientificArea
