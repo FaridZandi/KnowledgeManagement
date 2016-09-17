@@ -1,3 +1,4 @@
+from django.shortcuts import HttpResponse
 from django.shortcuts import render
 from django.views.generic import DeleteView
 from django.views.generic import TemplateView
@@ -21,6 +22,7 @@ class projectFormView(TemplateView):
         if projectForm.is_valid():
             projectForm.save()
             projectForm.seve_m2m()
+            projectForm=ProjectForm
         projects = Project.objects.all()
         return render(request, 'projectForm.html', {'projects' : projects, 'projectForm' : projectForm})
 
@@ -34,6 +36,7 @@ class PlanFormView(TemplateView):
         planForm = PlanForm(request.POST)
         if planForm.is_valid():
             planForm.save()
+            planForm=PlanForm
         return render(request, 'planForm.html', {'planForm' : planForm})
 
 class PlanFormUpdateView(UpdateView):
@@ -49,14 +52,20 @@ class PlanFormDeleteView(DeleteView):
     model = Plan
     template_name = 'planFormDelete.html'
     success_url = '/plan/new'
+
+
 class ScientificActivityCreateView(TemplateView):
     def get(self, request, *args, **kwargs):
         return render(request, 'scientificActivityCreate.html', {'form':ScientificActivityForm()})
-    def post(self,request,*args,**kwargs):
-        scientificActivityForm=ScientificActivityForm(request.POST)
-        if(scientificActivityForm.is_valid()):
-            scientificActivityForm.save()
-        return render(request, 'scientificActivityCreate.html', {'form':scientificActivityForm})
+
+    def post(self, request, *args, **kwargs):
+        scientific_activity_form = ScientificActivityForm(request.POST)
+        if scientific_activity_form.is_valid():
+            scientific_activity_form.save()
+            scientific_activity_form = ScientificActivityForm
+
+        return render(request, 'scientificActivityCreate.html', {'form': scientific_activity_form})
+
 
 class ScientificActivityUpdateView(UpdateView):
     model=ScientificActivity
@@ -76,4 +85,55 @@ class ScientificAreaCreateView(TemplateView):
         scientificAreaForm=ScientificAreaForm(request.POST)
         if(scientificAreaForm.is_valid()):
             scientificAreaForm.save()
+            scientificAreaForm=ScientificAreaForm
         return render(request, 'scientificAreaCreate.html', {'form':scientificAreaForm})
+
+class ScientificAreaUpdateView(UpdateView):
+    model=ScientificArea
+    form_class = ScientificAreaForm
+    template_name = "scientificAreaUpdate.html"
+    success_url = "/scientificarea/new/"
+
+class ScientificAreaDeleteView(DeleteView):
+    model=ScientificArea
+    template_name = "scientificAreaDelete.html"
+    success_url = "/scientificarea/new/"
+    # return render(request, 'scientificAreaCreate.html', {'form':scientificAreaForm})
+
+class DocumentationView(TemplateView):
+    def get(self, request, *args, **kwargs ):
+        return render(request, 'DocumentationCreate.html', {'form':DocumentationForm})
+
+    def post(self, request, *args, **kwargs):
+        documentationForm = DocumentationForm(request.POST)
+        flag=False
+        for i in range (1,int(request.POST['suggested-solution-count'])+1):
+            str1 = 'suggested-solution-title-input-' + str(i)
+            str2 = 'suggested-solution-body-input-' + str(i)
+            if str1 in request.POST :
+                if len(request.POST[str1]) > 0 or len(request.POST[str2]) > 0:
+                    flag = True
+                    break
+        if not flag :
+            documentationForm.add_error("","no suggested solution")
+            return render(request, 'DocumentationCreate.html', {'form':documentationForm})
+
+        minKeywordsCnt = 1
+        flagCnt = 0
+        for i in range (1, int(request.POST['keywords-count'])+1) :
+            str1 = 'keywords-input-' + str(i)
+            if str1 in request.POST and  len(request.POST[str1]) > 0 :
+                flagCnt += 1
+        if flagCnt < minKeywordsCnt :
+            documentationForm.add_error("","not enough key words")
+            return render(request, 'DocumentationCreate.html', {'form':documentationForm})
+
+
+        if documentationForm.is_valid() :
+            newDocumentation = documentationForm.save()
+            documentationForm=DocumentationForm
+
+
+
+        return render(request, 'DocumentationCreate.html', {'form':documentationForm})
+

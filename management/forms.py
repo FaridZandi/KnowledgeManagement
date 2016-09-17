@@ -24,11 +24,13 @@ class ScientificActivityForm(forms.ModelForm):
         fields = ['title','output','implicit_scientific_pen','explicit_scientific_pen']
         widgets = {'output': forms.CheckboxSelectMultiple(),'implicit_scientific_pen':forms.CheckboxSelectMultiple(),'explicit_scientific_pen':forms.CheckboxSelectMultiple()}
 
+
 class ScientificAreaForm(forms.ModelForm):
     def __init__(self,*args,**kwargs):
         super(ScientificAreaForm,self).__init__(*args,**kwargs)
-        self.fields['is_main'].choices=self.fields['is_main'].choices[1:]
-
+        self.fields['main_area'].queryset = ScientificArea.objects.filter(is_main=True)
+        if len(self.fields['main_area'].queryset) != 0:
+            self.fields['main_area'].empty_label = None
 
     class Meta:
         model = ScientificArea
@@ -36,3 +38,7 @@ class ScientificAreaForm(forms.ModelForm):
         widgets={'is_main':forms.RadioSelect(),'activity_and_method_of_operation':forms.CheckboxSelectMultiple(),'intellectualProperty':forms.CheckboxSelectMultiple(),'is_potential':forms.RadioSelect()}
 
 
+class DocumentationForm(forms.ModelForm):
+    class Meta:
+        model = Documentation
+        fields = '__all__'
