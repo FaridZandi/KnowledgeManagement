@@ -8,6 +8,7 @@ from django.views.generic import TemplateView, UpdateView, DeleteView
 from management.models import *
 from management.forms import *
 
+from datetime import  date
 # Create your views here.
 
 
@@ -52,15 +53,20 @@ class PlanFormDeleteView(DeleteView):
     model = Plan
     template_name = 'planFormDelete.html'
     success_url = '/plan/new'
+
+
 class ScientificActivityCreateView(TemplateView):
     def get(self, request, *args, **kwargs):
         return render(request, 'scientificActivityCreate.html', {'form':ScientificActivityForm()})
-    def post(self,request,*args,**kwargs):
-        scientificActivityForm=ScientificActivityForm(request.POST)
-        if(scientificActivityForm.is_valid()):
-            scientificActivityForm.save()
-            scientificActivityForm=ScientificActivityForm
-        return render(request, 'scientificActivityCreate.html', {'form':scientificActivityForm})
+
+    def post(self, request, *args, **kwargs):
+        scientific_activity_form = ScientificActivityForm(request.POST)
+        if scientific_activity_form.is_valid():
+            scientific_activity_form.save()
+            scientific_activity_form = ScientificActivityForm
+
+        return render(request, 'scientificActivityCreate.html', {'form': scientific_activity_form})
+
 
 class ScientificActivityUpdateView(UpdateView):
     model=ScientificActivity
@@ -98,11 +104,56 @@ class ScientificAreaDeleteView(DeleteView):
 
 class DocumentationView(TemplateView):
     def get(self, request, *args, **kwargs ):
-        return render(request, 'documentationCreate.html', {'form':DocumentationForm})
+        return render(request, 'DocumentationCreate.html', {'form':DocumentationForm})
 
     def post(self, request, *args, **kwargs):
         documentationForm = DocumentationForm(request.POST)
-        return HttpResponse('ok')
+        flag=False
+        for i in range (1,int(request.POST['suggested-solution-count'])+1):
+            str1 = 'suggested-solution-title-input-' + str(i)
+            str2 = 'suggested-solution-body-input-' + str(i)
+            if str1 in request.POST :
+                if len(request.POST[str1]) > 0 or len(request.POST[str2]) > 0:
+                    flag = True
+                    break
+        if not flag :
+            documentationForm.add_error("","no suggested solution")
+            return render(request, 'DocumentationCreate.html', {'form':documentationForm})
+
+        minKeywordsCnt = 1
+        flagCnt = 0
+        for i in range (1, int(request.POST['keywords-count'])+1) :
+            str1 = 'keywords-input-' + str(i)
+            if str1 in request.POST and  len(request.POST[str1]) > 0 :
+                flagCnt += 1
+        if flagCnt < minKeywordsCnt :
+            documentationForm.add_error("","not enough key words")
+            return render(request, 'DocumentationCreate.html', {'form':documentationForm})
+
+
+        if documentationForm.is_valid() :
+            newDocumentation = documentationForm.save(commit=False)
+            newDocumentation.date = date.today()
+            newDocumentation.save()
+            documentationForm.save_m2m()
+            documentationForm=DocumentationForm
+
+            for i in range (1,int(request.POST['suggested-solution-count'])+1):
+                str1 = 'suggested-solution-title-input-' + str(i)
+                str2 = 'suggested-solution-body-input-' + str(i)
+                if str1 in request.POST :
+                    if len(request.POST[str1]) > 0 or len(request.POST[str2]) > 0:
+                        DocumentationSuggestedSolution.objects.create(title=request.POST[str1], description=request.POST[str2], documentation=newDocumentation)
+
+            for i in range (1, int(request.POST['keywords-count'])+1) :
+                str1 = 'keywords-input-' + str(i)
+                if str1 in request.POST and  len(request.POST[str1]) > 0 :
+                    DocumentationKeyword.objects.create(name=request.POST[str1], documentation=newDocumentation)
+
+
+
+        return render(request, 'DocumentationCreate.html', {'form':documentationForm})
+
 
 class DocumentationDeleteView(DeleteView):
     model = Plan

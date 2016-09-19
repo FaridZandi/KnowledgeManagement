@@ -2,7 +2,9 @@
 {% load widget_tweaks %}
 
 {% block head %}
-    <title xmlns="http://www.w3.org/1999/html">New scientific area</title>
+    <title xmlns="http://www.w3.org/1999/html">New documentation</title>
+
+
 
 
 
@@ -58,6 +60,7 @@
 		function addNewSuggestedSolution(){
             suggestedSolutionsDiv = $('#suggested-solution');
 			lastAddedSuggestedSolution ++;
+            $('#suggested-solution-count').val(lastAddedSuggestedSolution);
 			var number = lastAddedSuggestedSolution;
 
 			var appendingData =
@@ -119,6 +122,7 @@
 		function addNewKeywords(){
             keywordsDiv = $('#keywords');
 			lastAddedKeywords ++;
+            $('#keywords-count').val(lastAddedKeywords);
 			var number = lastAddedKeywords;
 
 			var appendingData = '<div class="col-md-3">'+
@@ -162,15 +166,6 @@
             {{ form.title.label_tag }} {{ form.title|add_class:"form-control"|attr:"placeholder:Enter title" }}
             {% if form.title.errors %}
                 {% for error in form.title.errors %}
-                    <p class="text-danger" style="font-size:small">{{ error }}</p>
-                {% endfor %}
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.date.label_tag }} {{ form.date|add_class:"form-control"|attr:"placeholder:Enter date" }}
-            {% if form.date.errors %}
-                {% for error in form.date.errors %}
                     <p class="text-danger" style="font-size:small">{{ error }}</p>
                 {% endfor %}
             {% endif %}
@@ -237,6 +232,7 @@
         </div>
 
         <div class="row">
+            <input type="hidden" name="suggested-solution-count" id="suggested-solution-count" value="1" />
 			<div class="col-md-1">
 				راه حل های پیشنهادی :
 			</div>
@@ -268,6 +264,7 @@
 
 
         <div class="row">
+             <input type="hidden" name="keywords-count" id="keywords-count" value="1" />
 			<div class="col-md-1">
 				کلمات کلیدی :
 			</div>
