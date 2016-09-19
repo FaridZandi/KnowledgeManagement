@@ -5,21 +5,22 @@ from django.db import models
 
 class Plan(models.Model):
     title = models.CharField(verbose_name="عنوان", max_length=200)
-    number = models.CharField(verbose_name="شماره طرح", max_length=20)
+    number = models.CharField(verbose_name="شماره طرح", unique=True, max_length=20,
+                              validators=[RegexValidator(regex=r'^\d+$', message="این فیلد تنها میتواند شامل کاراکتر های عددی باشد.")])
 
     def __str__(self):
         return self.title
 
 
 class PlanGoal(models.Model):
-    body = models.TextField()
+    body = models.TextField(verbose_name="متن")
     project = models.ForeignKey(Plan, related_name="goals")
 
 
 class Project(models.Model):
     title = models.CharField(verbose_name="عنوان", max_length=200)
     number = models.CharField(verbose_name="شماره پروژه", unique=True, max_length=20,
-                              validators=[RegexValidator(regex=r'^\d+$',message="این فیلد تنها میتواند شامل کاراکتر های عددی باشد.")])
+                              validators=[RegexValidator(regex=r'^\d+$', message="این فیلد تنها میتواند شامل کاراکتر های عددی باشد.")])
     start_date = models.DateField(verbose_name="تاریخ شروع", blank=True, null=True)
     end_date = models.DateField(verbose_name="تاریخ پایان", blank=True, null=True)
     importance = models.TextField(verbose_name="اهمیت")
@@ -29,19 +30,19 @@ class Project(models.Model):
 
 
 class ProjectGoal(models.Model):
-    body = models.TextField()
+    body = models.TextField(verbose_name="متن")
     project = models.ForeignKey(Project, related_name="goals")
 
 
 class ProjectStep(models.Model):
-    title = models.CharField(max_length=200, blank=True, null=True)
-    body = models.TextField(blank=True, null=True)
+    title = models.CharField(verbose_name="عنوان", max_length=200, blank=True, null=True)
+    body = models.TextField(verbose_name="متن", blank=True, null=True)
     project = models.ForeignKey(Project, related_name="steps")
 
 
 class ProjectExecutor(models.Model):
-    role = models.CharField(max_length=200)
-    name = models.CharField(max_length=200)
+    role = models.CharField(verbose_name="نقش", max_length=200)
+    name = models.CharField(verbose_name="نام", max_length=200)
     project = models.ForeignKey(Project, related_name="executors")
 
 
@@ -67,10 +68,10 @@ class ExplicitPenChoices(models.Model):
 
 
 class ScientificActivity(models.Model):
-    title = models.CharField(max_length=200)
-    output = models.ManyToManyField(OutputChoice)
-    implicit_scientific_pen = models.ManyToManyField(ImplicitPenChoices)
-    explicit_scientific_pen = models.ManyToManyField(ExplicitPenChoices)
+    title = models.CharField(verbose_name="عنوان", max_length=200)
+    output = models.ManyToManyField(OutputChoice, verbose_name="خروجی فعالیت")
+    implicit_scientific_pen = models.ManyToManyField(ImplicitPenChoices, verbose_name="قلم دانشی(ضمنی)")
+    explicit_scientific_pen = models.ManyToManyField(ExplicitPenChoices, verbose_name="قلم دانشی(صریح)")
 
 
 class MoaChoice(models.Model):
@@ -88,24 +89,21 @@ class IntellectualPropertyChoice(models.Model):
 
 
 class ScientificArea(models.Model):
-    title = models.CharField(max_length=200)
-    summary = models.TextField()
-    # TODO: in the forms change the widget to radio select
+    title = models.CharField(verbose_name="عنوان", max_length=200)
+    summary = models.TextField(verbose_name="شرح مختصر")
     is_main = models.BooleanField(verbose_name="نوع:", choices=[(True, "اصلی"), (False, "فرعی")],default=True)
-
-    main_area = models.ForeignKey(to="ScientificArea", related_name='main_scientific_area', default=None, blank=True, null=True)
+    main_area = models.ForeignKey(to="ScientificArea", default=None, blank=True, null=True,
+                                  related_name='main_scientific_area', verbose_name="حوزه اصلی")
 
     activity_and_method_of_operation = models.ManyToManyField(MoaChoice,verbose_name="فعالیت و شیوه ی کاری:",blank=True)
 
     intellectualProperty = models.ManyToManyField(IntellectualPropertyChoice, verbose_name = "سرمایه های فکری:",blank=True)
-    learning_methods = models.TextField(null=True, blank=True)
-    innovation_and_technology = models.TextField(null=True, blank=  True)
-    beneficiaries = models.TextField(null=True, blank=True)
+    learning_methods = models.TextField(verbose_name="روش های یادگیری", null=True, blank=True)
+    innovation_and_technology = models.TextField(verbose_name="نوآوری و فناوری", null=True, blank=True)
+    beneficiaries = models.TextField(verbose_name="ذینفعان", null=True, blank=True)
 
     is_essential = models.BooleanField(verbose_name= "حیاتی برای پروژه.", default=False)
-
     is_effective = models.BooleanField(verbose_name= "در انجام پروژه موثر است.", default=False)
-
     is_potential = models.BooleanField(verbose_name="تاثیر ", choices=[(True, "بالقوه"), (False, "بالفعل")], default=False)
 
     def __str__(self):
@@ -113,76 +111,103 @@ class ScientificArea(models.Model):
 
 
 class Paper(models.Model):
-    name = models.CharField(max_length=200)
-    publish_date = models.DateField()
+    name = models.CharField(verbose_name="نام", max_length=200)
+    publish_date = models.DateField(verbose_name="تاریخ انتشار")
 
 
 class PaperAuthor(models.Model):
-    national_code = models.CharField(max_length=20)
-    company_registration_code = models.CharField(max_length=20)
+    national_code = models.CharField(verbose_name="کد ملی", max_length=20)
+    company_registration_code = models.CharField(verbose_name="کد ثبت شرکت", max_length=20)
     Paper = models.ForeignKey(Paper, related_name='authors')
 
 
 class Thesis(models.Model):
-    name = models.CharField(max_length=200)
-    publish_date = models.DateField()
-    author_national_code = models.CharField(max_length=10)
+    name = models.CharField(verbose_name="نام", max_length=200)
+    publish_date = models.DateField(verbose_name="تاریخ انتشار")
+    author_national_code = models.CharField(verbose_name="کد ملی نویسنده", max_length=10)
 
 
 class Invention(models.Model):
-    name = models.CharField(max_length=200)
-    registration_code = models.CharField(max_length=20)
-    registration_date = models.DateField()
+    name = models.CharField(verbose_name="نام", max_length=200)
+    registration_code = models.CharField(verbose_name="کد ثبت", max_length=20)
+    registration_date = models.DateField(verbose_name="تاریخ ثبت")
 
 
 class Inventor(models.Model):
-    national_code = models.CharField(max_length=10)
-    company_registration_code = models.CharField(max_length=20)
+    national_code = models.CharField(verbose_name="کد ملی", max_length=10)
+    company_registration_code = models.CharField(verbose_name="کد ثبت شرکت", max_length=20)
     invention = models.ForeignKey(Invention, related_name="inventors")
 
 
 class ScientificDocument(models.Model):
-    name = models.CharField(max_length=200)
-    owner_national_code = models.CharField(max_length=10)
+    name = models.CharField(verbose_name="نام", max_length=200)
+    owner_national_code = models.CharField(verbose_name="کد ملی دارنده", max_length=10)
 
 
 class ScientificRank(models.Model):
-    name = models.CharField(max_length=200)
-    related_company_registration_code = models.CharField(max_length=20)
+    name = models.CharField(verbose_name="نام", max_length=200)
+    related_company_registration_code = models.CharField(verbose_name="کد ثبت شرکت مرتبط", max_length=20)
 
 
 class ExternalResource(models.Model):
-    name = models.CharField(max_length=200)
-    link = models.URLField()
+    name = models.CharField(verbose_name="عنوان", max_length=200)
+    link = models.URLField(verbose_name="لینک")
 
 
 class Documentation(models.Model):
     date = models.DateField()
-    registration_code = models.CharField(max_length=20)
+    registration_number = models.CharField(verbose_name="", max_length=20,
+                                           validators=[RegexValidator(regex=r'^\d+$',message="این فیلد تنها میتواند شامل کاراکتر های عددی باشد.")])
     # TODO : still no Person Model so I can't add this one
     person = "to be added"
-    role = models.CharField(max_length=200)
+    role = models.CharField(verbose_name="نقش در پروژه", max_length=200)
     project = models.ForeignKey(Project)
-    activity = models.CharField(max_length=200)
-    problem_title = models.CharField(max_length=200)
-    problem_description = models.TextField()
+    activity = models.CharField(verbose_name="عنوان فعالیت", max_length=200)
+    problem_title = models.CharField(verbose_name="عنوان مشکل", max_length=200)
+    problem_description = models.TextField(verbose_name="شرح مشکل و دلایل")
 
 
 class DocumentationSuggestedSolution(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField()
+    title = models.CharField(verbose_name="عنوان", max_length=200, null=True, blank=True)
+    description = models.TextField(verbose_name="متن", null=True, blank=True)
     documentation = models.ForeignKey(Documentation, related_name="solutions")
 
 
 class DocumentationKeyword(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(verbose_name="کلمه کلیدی", max_length=100)
     documentation = models.ForeignKey(Documentation, related_name="keywords")
 
 
-class ScientificPackage(models.Model):
+class SciencePackageTopic(models.Model):
+    # TODO: in the form a radio button must be shown to choose between plans and project. Each one checked will be shown
+    project = models.ForeignKey(Project, verbose_name="پروژه")
+    plan = models.ForeignKey(Plan, verbose_name="طرح")
+
+    title = models.CharField(verbose_name="عنوان", max_length=200)
+    description = models.TextField(verbose_name="شرح مختصر")
+
+
+class SciencePackage(models.Model):
+    # TODO: in the form a radio button must be shown to choose between plans and project. Each one checked will be shown
+    project = models.ForeignKey(Project)
+    plan = models.ForeignKey(Plan)
+
+    product_name = models.CharField(verbose_name="نام محصول", max_length=200)
+    product_science = models.TextField(verbose_name="دانش فنی مرتبط با محصول")
+    product_features = models.TextField(verbose_name="ویژگی های محصول")
+
+    # TODO: a table of person objects is needed for this model as تهیه کننده گان دانش
+
     title = models.CharField(max_length=200)
     scientificArea = models.ForeignKey(ScientificArea)
 
+    science_package_topic = models.ForeignKey(SciencePackageTopic, verbose_name="سرفصل بسته ی دانش")
 
-    project = models.ForeignKey(Project)
-    plan = models.ForeignKey(Plan)
+    lessons = models.TextField(verbose_name="دانش های آموخته شده")
+    skills = models.TextField(verbose_name="مهارت ها و تکنیک های حاصله")
+    # TODO: a table of person objects in needed fot this part as مشخصات دانشگران مرتبط
+    tools = models.TextField(verbose_name="ابزار و تجهیزات")
+
+
+
+
