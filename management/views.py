@@ -83,6 +83,7 @@ class ScientificAreaCreateView(TemplateView):
             scientificAreaForm=ScientificAreaForm
         return render(request, 'scientificAreaCreate.html', {'form':scientificAreaForm})
 
+
 class ScientificAreaUpdateView(UpdateView):
     model=ScientificArea
     form_class = ScientificAreaForm
