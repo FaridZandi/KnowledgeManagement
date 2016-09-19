@@ -102,3 +102,8 @@ class DocumentationView(TemplateView):
     def post(self, request, *args, **kwargs):
         documentationForm = DocumentationForm(request.POST)
         return HttpResponse('ok')
+
+class DocumentationDeleteView(DeleteView):
+    model = Plan
+    template_name = 'DocumentationDelete.html'
+    success_url = '/documentation/new'
