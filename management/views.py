@@ -89,6 +89,7 @@ class ScientificAreaCreateView(TemplateView):
             scientificAreaForm=ScientificAreaForm
         return render(request, 'scientificAreaCreate.html', {'form':scientificAreaForm})
 
+
 class ScientificAreaUpdateView(UpdateView):
     model=ScientificArea
     form_class = ScientificAreaForm
@@ -153,3 +154,8 @@ class DocumentationView(TemplateView):
 
         return render(request, 'DocumentationCreate.html', {'form':documentationForm})
 
+
+class DocumentationDeleteView(DeleteView):
+    model = Plan
+    template_name = 'DocumentationDelete.html'
+    success_url = '/documentation/new'
