@@ -2,7 +2,9 @@
 {% load widget_tweaks %}
 
 {% block head %}
-    <title xmlns="http://www.w3.org/1999/html">New scientific area</title>
+    <title xmlns="http://www.w3.org/1999/html">New documentation</title>
+
+
 
 
 
@@ -164,15 +166,6 @@
             {{ form.title.label_tag }} {{ form.title|add_class:"form-control"|attr:"placeholder:Enter title" }}
             {% if form.title.errors %}
                 {% for error in form.title.errors %}
-                    <p class="text-danger" style="font-size:small">{{ error }}</p>
-                {% endfor %}
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.date.label_tag }} {{ form.date|add_class:"form-control"|attr:"placeholder:Enter date" }}
-            {% if form.date.errors %}
-                {% for error in form.date.errors %}
                     <p class="text-danger" style="font-size:small">{{ error }}</p>
                 {% endfor %}
             {% endif %}

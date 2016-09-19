@@ -8,6 +8,7 @@ from django.views.generic import TemplateView, UpdateView, DeleteView
 from management.models import *
 from management.forms import *
 
+from datetime import  date
 # Create your views here.
 
 
@@ -130,8 +131,23 @@ class DocumentationView(TemplateView):
 
 
         if documentationForm.is_valid() :
-            newDocumentation = documentationForm.save()
+            newDocumentation = documentationForm.save(commit=False)
+            newDocumentation.date = date.today()
+            newDocumentation.save()
+            documentationForm.save_m2m()
             documentationForm=DocumentationForm
+
+            for i in range (1,int(request.POST['suggested-solution-count'])+1):
+                str1 = 'suggested-solution-title-input-' + str(i)
+                str2 = 'suggested-solution-body-input-' + str(i)
+                if str1 in request.POST :
+                    if len(request.POST[str1]) > 0 or len(request.POST[str2]) > 0:
+                        DocumentationSuggestedSolution.objects.create(title=request.POST[str1], description=request.POST[str2], documentation=newDocumentation)
+
+            for i in range (1, int(request.POST['keywords-count'])+1) :
+                str1 = 'keywords-input-' + str(i)
+                if str1 in request.POST and  len(request.POST[str1]) > 0 :
+                    DocumentationKeyword.objects.create(name=request.POST[str1], documentation=newDocumentation)
 
 
 

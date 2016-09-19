@@ -41,4 +41,4 @@ class ScientificAreaForm(forms.ModelForm):
 class DocumentationForm(forms.ModelForm):
     class Meta:
         model = Documentation
-        fields = '__all__'
+        exclude = ('date',)
