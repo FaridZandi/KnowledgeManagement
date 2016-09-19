@@ -162,19 +162,19 @@
         {% endif %}
 
 
-        <div class="form-group">
-            {{ form.title.label_tag }} {{ form.title|add_class:"form-control"|attr:"placeholder:Enter title" }}
-            {% if form.title.errors %}
-                {% for error in form.title.errors %}
-                    <p class="text-danger" style="font-size:small">{{ error }}</p>
-                {% endfor %}
-            {% endif %}
-        </div>
+{#        <div class="form-group">#}
+{#            {{ form.title.label_tag }} {{ form.title|add_class:"form-control"|attr:"placeholder:Enter title" }}#}
+{#            {% if form.title.errors %}#}
+{#                {% for error in form.title.errors %}#}
+{#                    <p class="text-danger" style="font-size:small">{{ error }}</p>#}
+{#                {% endfor %}#}
+{#            {% endif %}#}
+{#        </div>#}
 
         <div class="form-group">
-            {{ form.registration_code.label_tag }} {{ form.registration_code|add_class:"form-control"|attr:"placeholder:Enter registration code" }}
-            {% if form.registration_code.errors %}
-                {% for error in form.registration_code.errors %}
+            {{ form.registration_number.label_tag }} {{ form.registration_number|add_class:"form-control" }}
+            {% if form.registration_number.errors %}
+                {% for error in form.registration_number.errors %}
                     <p class="text-danger" style="font-size:small">{{ error }}</p>
                 {% endfor %}
             {% endif %}

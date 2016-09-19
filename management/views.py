@@ -129,8 +129,7 @@ class DocumentationView(TemplateView):
             documentationForm.add_error("","not enough key words")
             return render(request, 'DocumentationCreate.html', {'form':documentationForm})
 
-
-        if documentationForm.is_valid() :
+        if documentationForm.is_valid():
             newDocumentation = documentationForm.save(commit=False)
             newDocumentation.date = date.today()
             newDocumentation.save()
@@ -148,7 +147,8 @@ class DocumentationView(TemplateView):
                 str1 = 'keywords-input-' + str(i)
                 if str1 in request.POST and  len(request.POST[str1]) > 0 :
                     DocumentationKeyword.objects.create(name=request.POST[str1], documentation=newDocumentation)
-
+        else:
+            return HttpResponse(documentationForm.errors)
 
 
         return render(request, 'DocumentationCreate.html', {'form':documentationForm})

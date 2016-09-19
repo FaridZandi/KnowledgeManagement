@@ -5,9 +5,13 @@ from .models import *
 
 class SuggestedSolutionAdminInline (admin.TabularInline):
     model= DocumentationSuggestedSolution
+    extra = 0
+
 
 class KeywordAdminInline (admin.TabularInline):
-    model=DocumentationKeyword
+    model = DocumentationKeyword
+    extra = 0
+
 
 class DocumentationAdmin(admin.ModelAdmin):
     inlines = (SuggestedSolutionAdminInline, KeywordAdminInline, )

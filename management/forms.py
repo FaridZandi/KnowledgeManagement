@@ -18,6 +18,7 @@ class PlanForm(forms.ModelForm):
         model = Plan
         fields = ['title', 'number']
 
+
 class ScientificActivityForm(forms.ModelForm):
     class Meta:
         model = ScientificActivity

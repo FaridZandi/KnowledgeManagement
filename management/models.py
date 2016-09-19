@@ -156,7 +156,7 @@ class ExternalResource(models.Model):
 
 class Documentation(models.Model):
     date = models.DateField()
-    registration_number = models.CharField(verbose_name="", max_length=20,
+    registration_number = models.CharField(verbose_name="شماره ثبت", max_length=20,
                                            validators=[RegexValidator(regex=r'^\d+$',message="این فیلد تنها میتواند شامل کاراکتر های عددی باشد.")])
     # TODO : still no Person Model so I can't add this one
     person = "to be added"
