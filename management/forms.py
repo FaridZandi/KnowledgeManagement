@@ -1,3 +1,6 @@
+from itertools import chain
+from operator import attrgetter
+
 from django.forms import ModelChoiceField
 
 from management.models import *
@@ -43,3 +46,20 @@ class DocumentationForm(forms.ModelForm):
     class Meta:
         model = Documentation
         exclude = ('date',)
+
+
+class SciencePackageTopicForm(forms.ModelForm):
+    plan = forms.ModelChoiceField(queryset=Plan.objects.all())
+    project = forms.ModelChoiceField(queryset=Project.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        super(SciencePackageTopicForm, self).__init__(*args, **kwargs)
+        if len(self.fields['plan'].queryset) != 0:
+            self.fields['plan'].empty_label = None
+
+        if len(self.fields['project'].queryset) != 0:
+            self.fields['project'].empty_label = None
+
+    class Meta:
+        model = SciencePackageTopic
+        fields = ['title', 'description']

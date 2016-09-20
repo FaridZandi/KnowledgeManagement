@@ -11,7 +11,7 @@
         function checkIsMain()
         {
             if ($("input[name=is_main]:checked").val() == "True") {
-                $("#main_area").hide()
+                $("#main_area").fadeOut()
             }
             else {
                 $("#main_area").show()
@@ -20,23 +20,23 @@
 
         function checkIsEffective() {
             if ($('#id_is_effective').is(":checked"))
-                $("#is_potential").show();
+                $("#is_potential").fadeIn();
             else
-                $("#is_potential").hide();
+                $("#is_potential").fadeOut();
         }
 
         function checkMO_0() {
             if ($("#id_activity_and_method_of_operation_0").is(":checked"))
                 $("#intellectualProperty").show();
             else
-                $("#intellectualProperty").hide();
+                $("#intellectualProperty").fadeOut();
         }
 
         function checkMO_1() {
             if ($("#id_activity_and_method_of_operation_1").is(":checked"))
                 $("#learning_methods").show();
             else
-                $("#learning_methods").hide();
+                $("#learning_methods").fadeOut();
         }
 
         function checkMO_2()
@@ -44,14 +44,14 @@
             if ($("#id_activity_and_method_of_operation_2").is(":checked"))
                 $("#innovation_and_technology").show();
             else
-                $("#innovation_and_technology").hide();
+                $("#innovation_and_technology").fadeOut();
         }
 
         function checkMO_3() {
             if ($("#id_activity_and_method_of_operation_3").is(":checked"))
                 $("#beneficiaries").show();
             else
-                $("#beneficiaries").hide();
+                $("#beneficiaries").fadeOut();
         }
         $(document).ready(function () {
             checkIsMain();

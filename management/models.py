@@ -1,3 +1,4 @@
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.core.validators import RegexValidator
 from django.db import models
 # Create your models here.
@@ -72,6 +73,8 @@ class ScientificActivity(models.Model):
     output = models.ManyToManyField(OutputChoice, verbose_name="خروجی فعالیت")
     implicit_scientific_pen = models.ManyToManyField(ImplicitPenChoices, verbose_name="قلم دانشی(ضمنی)")
     explicit_scientific_pen = models.ManyToManyField(ExplicitPenChoices, verbose_name="قلم دانشی(صریح)")
+    # TODO : add this field to form as a checkbox
+    Is_knowledge_worker_needed = models.BooleanField(verbose_name="آيا براي انجام كار نياز به نيروي دانشگر ميباشد", default=False)
 
 
 class MoaChoice(models.Model):

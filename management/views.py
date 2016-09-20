@@ -155,6 +155,12 @@ class DocumentationView(TemplateView):
         return render(request, 'DocumentationCreate.html', {'form':documentationForm})
 
 
+class SciencePackageTopicView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        science_package_topic_form = SciencePackageTopicForm
+        return render(request, 'SciencePackageTopicCreate.html', {'science_package_topic_form': science_package_topic_form})
+
+
 class DocumentationDeleteView(DeleteView):
     model = Plan
     template_name = 'DocumentationDelete.html'

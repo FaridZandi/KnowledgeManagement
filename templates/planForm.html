@@ -77,7 +77,7 @@
             {% endif %}
 
             <div class="form-group">
-                {{ planForm.title.label_tag}} {{ planForm.title | add_class:'form-control' | attr:"placeholder:Enter Title"}}
+                {{ planForm.title.label_tag}} {{ planForm.title | add_class:'form-control'}}
                 {% if planForm.title.errors %}
                     {% for error in planForm.title.errors %}
                         <p class="text-danger" style="font-size: small" > {{ error }} </p>

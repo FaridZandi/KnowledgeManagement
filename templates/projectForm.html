@@ -27,9 +27,6 @@
                 }
             });
         });
-    </script>
-
-    <script>
         var lastAddedProjectGoal = 1;
         $(document).ready(function () {
             $(document).on('keypress', ".project-goal-input", function (event) {
@@ -80,16 +77,10 @@
         }
     </script>
 
-    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/prism.css' %}">
-    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/normalize.css' %}">
-    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/vertical-responsive-menu.min.css' %}">
     <link rel="stylesheet" href="{% static 'PersianDatePicker/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/main.css' %}">
+{#    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/main.css' %}">#}
     <link rel="stylesheet" href="{% static 'PersianDatePicker/css/persianDatepicker-default.css' %}">
-{#    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/persianDatepicker-dark.css' %}">#}
-{#    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/persianDatepicker-latoja.css' %}">#}
-{#    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/persianDatepicker-lightorang.css' %}">#}
-{#    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/persianDatepicker-melon.css' %}">#}
+    <script src="{% static 'PersianDatePicker/js/persianDatepicker.min.js' %}"></script>
     <script>
         function vezhide(e){
             document.getElementById(e).innerHTML += "z";
@@ -102,25 +93,14 @@
 			margin-bottom: 10px;
 		}
 		.delete-project-goal > span{
-			margin-top: 30px;
+			margin-top: 10px;
 		}
 		.add-project-goal > span{
-			margin-top: 30px;
+			margin-top: 10px;
 		}
 	</style>
 
-    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/prism.css' %}">
-    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/normalize.css' %}">
-    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/vertical-responsive-menu.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/main.css' %}">
 
-    <script src="{% static 'PersianDatePicker/js/prism.min.js' %}"></script>
-    <script src="{% static 'PersianDatePicker/js/persianDatepicker.min.js' %}"></script>
-    <script src="{% static 'PersianDatePicker/js/vertical-responsive-menu.min.js' %}"></script>
-    <script src="{% static 'js/prism.min.js' %}"></script>
-    <script src="{% static 'js/persianDatepicker.min.js' %}"></script>
-    {#    <script src="{% static 'js/vertical-responsive-menu.min.js' %}"></script>#}
 {% endblock %}
 
 {% block content %}
