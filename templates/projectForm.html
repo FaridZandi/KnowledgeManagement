@@ -1,12 +1,22 @@
-{%  extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% load widget_tweaks %}
 {% load static %}
 {% block head %}
     <title> Forms </title>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             $("#id_start_date").persianDatepicker({
+                formatDate: "YYYY/0M/0D",
+                cellWidth: 30,
+                cellHeight: 30,
+                <!-- startDate: "1394/11/12", -->
+                <!-- endDate:"1396/5/5", -->
+                onSelect: function () {
+                    {#                    setGregorian()#}
+                }
+            });
+            $("#id_end_date").persianDatepicker({
                 formatDate: "YYYY/0M/0D",
                 cellWidth:30,
                 cellHeight:30,
@@ -16,22 +26,85 @@
 {#                    setGregorian()#}
                 }
             });
-        $(document).ready(function () {
         });
+        var lastAddedProjectGoal = 1;
+        $(document).ready(function () {
+            $(document).on('keypress', ".project-goal-input", function (event) {
+                if (event.which == 13) {
+                    event.preventDefault();
+                    var projectGoalsDiv = $(this).parents().eq(3);
+                    addNewProjectGoal(projectGoalsDiv);
+                    return false;
+                }
+            });
+
+
+            $(document).on('click', '.delete-project-goal', function () {
+                $(this).parents().eq(1).remove();
+            });
+
+            $(document).on('click', '.add-project-goal', function () {
+                addNewProjectGoal();
+            })
+
+        });
+
+
+        function addNewProjectGoal() {
+            lastAddedProjectGoal++;
+            var number = lastAddedProjectGoal;
+            var projectGoalsDiv = $("#project-goals");
+            var appendingData = '<div class="row"> ' +
+                    ' <div class="col-md-11"> ' +
+                    ' <div class="row" id="project-goal-' + number + '"> ' +
+                    ' <input type="text" id="project-goal-input-' + number + '" ' +
+                    ' name="project-goal-input-' + number + '" ' +
+                    ' class="project-goal-input form-control"/> ' +
+                    ' </div> ' +
+                    ' </div> ' +
+                    ' <div class="col-md-1"> ' +
+                    ' <a href="#" class="delete-project-goal"> ' +
+                    ' <span class="glyphicon glyphicon-trash"></span> ' +
+                    ' </a> ' +
+                    ' </div> ' +
+                    ' </div> ';
+
+            $(projectGoalsDiv).append(appendingData);
+
+            var appendedInputId = "project-goal-input-" + number;
+
+            $("#" + appendedInputId).focus();
+        }
     </script>
 
-    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/prism.css' %}">
-    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/normalize.css' %}">
-    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/vertical-responsive-menu.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/PersianDatePicker/main.css' %}">
+    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/style.css' %}">
+{#    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/main.css' %}">#}
+    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/persianDatepicker-default.css' %}">
+    <script src="{% static 'PersianDatePicker/js/persianDatepicker.min.js' %}"></script>
+    <script>
+        function vezhide(e){
+            document.getElementById(e).innerHTML += "z";
+            document.getElementById(e).classList += " well"
+        }
+    </script>
 
-    <script src="{% static 'js/prism.min.js' %}"></script>
-    <script src="{% static 'js/persianDatepicker.min.js' %}"></script>
-{#    <script src="{% static 'js/vertical-responsive-menu.min.js' %}"></script>#}
+    <style>
+		.project-goal-input{
+			margin-bottom: 10px;
+		}
+		.delete-project-goal > span{
+			margin-top: 10px;
+		}
+		.add-project-goal > span{
+			margin-top: 10px;
+		}
+	</style>
+
+
 {% endblock %}
 
 {% block content %}
+    <p onclick="vezhide(this.id)" id="11" class="text-center">vez</p>
     <div class="row">
         <div class="col-sm-10 col-sm-push-1">
             <form action="" method="post" class="form-horizontal">
@@ -54,25 +127,52 @@
                         {% endfor %}
                     {% endif %}
                 </div>
-
-                <div class="form-group">
-                    {{ projectForm.start_date.label_tag }} {{ projectForm.start_date|add_class:"form-control datepicker" }}
-                    {% if projectForm.start_date.errors %}
-                        {% for error in projectForm.start_date.errors %}
-                            <p class="text-danger" style="font-size: small"> {{ error }} </p>
-                        {% endfor %}
-                    {% endif %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ projectForm.start_date.label_tag }} {{ projectForm.start_date|add_class:"datepicker" }}
+                            {% if projectForm.start_date.errors %}
+                                {% for error in projectForm.start_date.errors %}
+                                    <p class="text-danger" style="font-size: small"> {{ error }} </p>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ projectForm.end_date.label_tag }} {{ projectForm.end_date|add_class:"datepicker" }}
+                            {% if projectForm.end_date.errors %}
+                                {% for error in projectForm.end_date.errors %}
+                                    <p class="text-danger" style="font-size: small"> {{ error }} </p>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    {{ projectForm.end_date.label_tag }} {{ projectForm.end_date|add_class:"form-control datepicker" }}
-                    {% if projectForm.end_date.errors %}
-                        {% for error in projectForm.end_date.errors %}
-                            <p class="text-danger" style="font-size: small"> {{ error }} </p>
-                        {% endfor %}
-                    {% endif %}
+                    <div class="row">
+                        <div class="col-md-1">
+                            اهداف:
+                        </div>
+                        <div class="col-md-11" id="project-goals">
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <div class="row" id="project-goal-1">
+                                        <input type="text" id="project-goal-input-1"
+                                               name="project-goal-input-1"
+                                               class="project-goal-input form-control"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <a href="#" class="add-project-goal">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
 
                 <div class="form-group">
                     {{ projectForm.importance.label_tag }} {{ projectForm.importance|add_class:'form-control' }}

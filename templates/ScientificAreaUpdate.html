@@ -1,90 +1,84 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
 {% block head %}
-    <title>New scientific area</title>
+    <title>Update scientific area</title>
     <style>
         .second-level-input {
             margin-right: 20px;
         }
     </style>
     <script>
-        function checkIsMain()
-        {
-            if ($("input[name=is_main]:checked").val() == "True") {
-                $("#main_area").fadeOut()
+
+        $(document).ready(function () {
+            if ($("input[name=is_main]").val() == "True") {
+                $("#main_area").hide()
             }
             else {
                 $("#main_area").show()
             }
-        }
-
-        function checkIsEffective() {
             if ($('#id_is_effective').is(":checked"))
-                $("#is_potential").fadeIn();
+                $("#is_potential").show();
             else
-                $("#is_potential").fadeOut();
-        }
-
-        function checkMO_0() {
+                $("#is_potential").hide();
             if ($("#id_activity_and_method_of_operation_0").is(":checked"))
                 $("#intellectualProperty").show();
             else
-                $("#intellectualProperty").fadeOut();
-        }
-
-        function checkMO_1() {
+                $("#intellectualProperty").hide();
             if ($("#id_activity_and_method_of_operation_1").is(":checked"))
                 $("#learning_methods").show();
             else
-                $("#learning_methods").fadeOut();
-        }
-
-        function checkMO_2()
-        {
+                $("#learning_methods").hide();
             if ($("#id_activity_and_method_of_operation_2").is(":checked"))
                 $("#innovation_and_technology").show();
             else
-                $("#innovation_and_technology").fadeOut();
-        }
-
-        function checkMO_3() {
+                $("#innovation_and_technology").hide();
             if ($("#id_activity_and_method_of_operation_3").is(":checked"))
                 $("#beneficiaries").show();
             else
-                $("#beneficiaries").fadeOut();
-        }
-        $(document).ready(function () {
-            checkIsMain();
-            checkIsEffective();
-            checkMO_0();
-            checkMO_1();
-            checkMO_2();
-            checkMO_3();
-
+                $("#beneficiaries").hide();
             $("input[name=is_main]").change(function () {
-                checkIsMain();
+                if ($(this).val() == "True") {
+                    $("#main_area").hide()
+                }
+                else {
+                    $("#main_area").show()
+                }
             });
             $("#id_is_effective").change(function () {
-                checkIsEffective();
+                if ($('#id_is_effective').is(":checked"))
+                    $("#is_potential").show();
+                else
+                    $("#is_potential").hide();
+
             });
             $("#id_activity_and_method_of_operation_0").change(function () {
-                checkMO_0();
+                if ($("#id_activity_and_method_of_operation_0").is(":checked"))
+                    $("#intellectualProperty").show();
+                else
+                    $("#intellectualProperty").hide();
             });
             $("#id_activity_and_method_of_operation_1").change(function () {
-                checkMO_1();
+                if ($("#id_activity_and_method_of_operation_1").is(":checked"))
+                    $("#learning_methods").show();
+                else
+                    $("#learning_methods").hide();
             });
             $("#id_activity_and_method_of_operation_2").change(function () {
-                checkMO_2();
+                if ($("#id_activity_and_method_of_operation_2").is(":checked"))
+                    $("#innovation_and_technology").show();
+                else
+                    $("#innovation_and_technology").hide();
             });
             $("#id_activity_and_method_of_operation_3").change(function () {
-                checkMO_3();
+                if ($("#id_activity_and_method_of_operation_3").is(":checked"))
+                    $("#beneficiaries").show();
+                else
+                    $("#beneficiaries").hide();
             });
-
         });
     </script>
 {% endblock %}
 {% block content %}
-
     <form action="" method="post" class="form-horizontal">
         {% csrf_token %}
         {% if form.non_field_errors %}
@@ -216,6 +210,6 @@
                 {% endfor %}
             {% endif %}
         </div>
-        <input type="submit" value="Submit" class="btn btn-success">
+        <input type="submit" value="Update" class="btn btn-warning">
     </form>
 {% endblock %}

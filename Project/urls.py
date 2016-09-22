@@ -18,6 +18,8 @@ from django.conf.urls import url
 from django.contrib import admin
 from management.views import *
 
+
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^project/new/$', projectFormView.as_view(), name= 'projectForms'),
@@ -28,4 +30,9 @@ urlpatterns = [
     url(r'^plan/update/(?P<pk>\d+)/$', PlanFormUpdateView.as_view(), name= 'planFormUpdate'),
     url(r'^plan/delete/(?P<pk>\d+)/$', PlanFormDeleteView.as_view(), name= 'planFormDelete'),
     url(r'^scientificarea/new/$', ScientificAreaCreateView.as_view(), name='createAreaActivity'),
+    url(r'^documentation/new/$', DocumentationView.as_view(), name='createDocumentation'),
+    url(r'^scientificarea/update/(?P<pk>\d+)/$',ScientificAreaUpdateView.as_view(),name='updateScientificArea'),
+    url(r'^scientificarea/delete/(?P<pk>\d+)/$', ScientificAreaDeleteView.as_view(),name='deleteScientificArea'),
+    url(r'^documentation/delete/(?P<pk>\d+)/$', DocumentationDeleteView.as_view(), name='documentationFormDelete'),
+    url(r'^sciencepackagetopic/new/$', SciencePackageTopicView.as_view(), name='sciencePackageTopicCreate'),
 ]

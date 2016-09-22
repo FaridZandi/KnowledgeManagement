@@ -1,0 +1,294 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block head %}
+    <title xmlns="http://www.w3.org/1999/html">New documentation</title>
+
+
+
+
+
+    <style>
+		.suggested-solution-title-input{
+			margin-bottom: 10px;
+		}
+        .suggested-solution-body-input{
+			margin-bottom: 10px;
+		}
+		.delete-suggested-solution > span{
+			margin-top: 10px;
+		}
+		.add-suggested-solution > span{
+			margin-top: 10px;
+		}
+
+        .keywords-input{
+			margin-bottom: 10px;
+		}
+		.delete-keywords > span{
+			margin-top: 10px;
+		}
+		.add-keywords > span{
+			margin-top: 10px;
+		}
+	</style>
+
+    <script>
+        var lastAddedSuggestedSolution = 1;
+		$(document).ready(function(){
+			$(document).on('keypress', ".suggested-solution-title-input", function(event){
+				if(event.which == 13)
+				{
+					event.preventDefault();
+					addNewSuggestedSolution();
+					return false;
+				}
+			});
+
+
+			$(document).on('click' , '.delete-suggested-solution', function(e){
+                e.preventDefault();
+				$(this).parents().eq(1).remove();
+			});
+
+			$(document).on('click' , '.add-suggested-solution', function(e){
+                e.preventDefault();
+				addNewSuggestedSolution();
+			})
+
+		});
+		function addNewSuggestedSolution(){
+            suggestedSolutionsDiv = $('#suggested-solution');
+			lastAddedSuggestedSolution ++;
+            $('#suggested-solution-count').val(lastAddedSuggestedSolution);
+			var number = lastAddedSuggestedSolution;
+
+			var appendingData =
+				'<div class="row">'+
+				'<div class="col-md-11">'+
+				'<div class="row" id="suggested-solution-' + number + '" > '+
+                '<div class="col-md-4">'+
+                '<input type="text" id="suggested-solution-title-input-' + number + '" '+
+				'name="suggested-solution-title-input-' + number + '" '+
+				'class="suggested-solution-title-input form-control"/> '+
+                '</div>'+
+                '<div class="col-md-8">'+
+                '<textarea id="suggested-solution-body-input-' + number + '" '+
+				'name="suggested-solution-body-input-' + number + '" '+
+				'class="suggested-solution-body-input form-control"></textarea>'+
+                '</div>'+
+				'</div>'+
+				'</div>'+
+				'<div class="col-md-1">'+
+				'<a href="#" class="delete-suggested-solution">'+
+			    '<span class="glyphicon glyphicon-trash"></span>'+
+				'</a>'+
+				'</div>'+
+			    '</div>';
+
+			$(suggestedSolutionsDiv).append(appendingData);
+
+			var appendedInputId = "suggested-solution-title-input-" + number;
+
+			$("#" + appendedInputId).focus();
+		}
+
+
+
+
+        var lastAddedKeywords = 1;
+		$(document).ready(function(){
+			$(document).on('keypress', ".keywords-input", function(event){
+				if(event.which == 13)
+				{
+					event.preventDefault();
+					addNewKeywords();
+					return false;
+				}
+			});
+
+
+			$(document).on('click' , '.delete-keywords', function(e){
+                e.preventDefault();
+				$(this).parents().eq(2).remove();
+			});
+
+			$(document).on('click' , '.add-keywords', function(e){
+                e.preventDefault();
+				addNewKeywords();
+			})
+
+		});
+		function addNewKeywords(){
+            keywordsDiv = $('#keywords');
+			lastAddedKeywords ++;
+            $('#keywords-count').val(lastAddedKeywords);
+			var number = lastAddedKeywords;
+
+			var appendingData = '<div class="col-md-3">'+
+                    '<div class="row">'+
+					'<div class="col-md-10">'+
+				    '<div class="row" id="keywords-' + number + '">'+
+					'<input type="text" id="keywords-input-' + number + '" '+
+					'name="keywords-input-' + number + '" '+
+					'class="keywords-input form-control"/> '+
+				    '</div> '+
+				    '</div>'+
+					'<div class="col-md-2">'+
+				    '<a href="#" class="delete-keywords">'+
+					'<span class="glyphicon glyphicon-trash"></span>'+
+					'</a>'+
+					'</div>'+
+                    '</div>'+
+                    '</div>';
+
+			$(keywordsDiv).append(appendingData);
+
+			var appendedInputId = "keywords-input-" + number;
+
+			$("#" + appendedInputId).focus();
+		}
+
+    </script>
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" class="form-horizontal">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <p class="text-danger" style="font-size:small">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+
+
+{#        <div class="form-group">#}
+{#            {{ form.title.label_tag }} {{ form.title|add_class:"form-control"|attr:"placeholder:Enter title" }}#}
+{#            {% if form.title.errors %}#}
+{#                {% for error in form.title.errors %}#}
+{#                    <p class="text-danger" style="font-size:small">{{ error }}</p>#}
+{#                {% endfor %}#}
+{#            {% endif %}#}
+{#        </div>#}
+
+        <div class="form-group">
+            {{ form.registration_number.label_tag }} {{ form.registration_number|add_class:"form-control" }}
+            {% if form.registration_number.errors %}
+                {% for error in form.registration_number.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Person add Here
+            *
+            *
+            *
+         -->
+
+        <div class="form-group">
+            {{ form.role.label_tag }} {{ form.role|add_class:"form-control"|attr:"placeholder:Enter role" }}
+            {% if form.role.errors %}
+                {% for error in form.role.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.project.label_tag }} {{ form.project|add_class:"form-control" }}
+            {% if form.project.errors %}
+                {% for error in form.project.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.activity.label_tag }} {{ form.activity|add_class:"form-control"|attr:"placeholder:Enter activity" }}
+            {% if form.activity.errors %}
+                {% for error in form.activity.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.problem_title.label_tag }} {{ form.problem_title|add_class:"form-control"|attr:"placeholder:Enter problem title" }}
+            {% if form.problem_title.errors %}
+                {% for error in form.problem_title.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.problem_description.label_tag }} {{ form.problem_description|add_class:"form-control"|attr:"placeholder:Enter problem description" }}
+            {% if form.problem_description.errors %}
+                {% for error in form.problem_description.errors %}
+                    <p class="text-danger" style="font-size:small">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="row">
+            <input type="hidden" name="suggested-solution-count" id="suggested-solution-count" value="1" />
+			<div class="col-md-1">
+				راه حل های پیشنهادی :
+			</div>
+			<div class="col-md-11" id="suggested-solution">
+				<div class="row">
+					<div class="col-md-11">
+						<div class="row" id="suggested-solution-1">
+                            <div class="col-md-4">
+                               <input type="text" id="suggested-solution-title-input-1"
+								   name="suggested-solution-title-input-1"
+								   class="suggested-solution-title-input form-control"/>
+                            </div>
+                            <div class="col-md-8">
+                               <textarea id="suggested-solution-body-input-1"
+								   name="suggested-solution-body-input-1"
+								   class="suggested-solution-body-input form-control"></textarea>
+                            </div>
+
+						</div>
+					</div>
+					<div class="col-md-1">
+						<a href="#" class="add-suggested-solution">
+							<span class="glyphicon glyphicon-plus"></span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+        <div class="row">
+             <input type="hidden" name="keywords-count" id="keywords-count" value="1" />
+			<div class="col-md-1">
+				کلمات کلیدی :
+			</div>
+			<div class="col-md-11" id="keywords">
+
+                <div class="col-md-3">
+                    <div class="row">
+					    <div class="col-md-10">
+						    <div class="row" id="keywords-1">
+							    <input type="text" id="keywords-input-1"
+								       name="keywords-input-1"
+							    	   class="keywords-input form-control"/>
+						    </div>
+				    	</div>
+					    <div class="col-md-2">
+						    <a href="#" class="add-keywords">
+							    <span class="glyphicon glyphicon-plus"></span>
+						    </a>
+					    </div>
+                    </div>
+                 </div>
+			</div>
+		</div>
+
+        <input type="submit" value="Submit" class="btn btn-success">
+    </form>
+{% endblock %}

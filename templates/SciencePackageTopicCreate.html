@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block head %}
+    <title>New scientific area</title>
+    <style>
+        .no_padding_margin {
+            padding: 0;
+            margin:0;
+        }
+    </style>
+    <script>
+
+    </script>
+{% endblock %}
+{% block content %}
+    <form action="" method="post" >
+        <div class="row">
+            <div class="col-md-2">
+                {{ science_package_topic_form.title.label_tag }}
+            </div>
+            <div class="col-md-10">
+                {{ science_package_topic_form.title }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                {{ science_package_topic_form.description.label_tag }}
+            </div>
+            <div class="col-md-10">
+                {{ science_package_topic_form.description }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                مربوط به:
+            </div>
+            <div class="col-md-10">
+                <input checked="checked" type="radio" name="plan_or_project" value="plan" id="pop_plan">
+                <label for="pop_plan" class="radio-inline no_padding_margin"> Plan </label>
+                <input type="radio" name="plan_or_project" value="project" id="pop_project">
+                <label for="pop_project" class="radio-inline no_padding_margin"> Project </label>
+            </div>
+        </div>
+    </form>
+{% endblock %}
