@@ -35,4 +35,5 @@ urlpatterns = [
     url(r'^scientificarea/delete/(?P<pk>\d+)/$', ScientificAreaDeleteView.as_view(),name='deleteScientificArea'),
     url(r'^documentation/delete/(?P<pk>\d+)/$', DocumentationDeleteView.as_view(), name='documentationFormDelete'),
     url(r'^sciencepackagetopic/new/$', SciencePackageTopicView.as_view(), name='sciencePackageTopicCreate'),
+    url(r'^documentation/update/(?P<pk>\d+)/$',DocumentationUpdateView.as_view(),name='updateDocumentation'),
 ]
