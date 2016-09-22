@@ -37,9 +37,20 @@ class PlanFormView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         planForm = PlanForm(request.POST)
+
+        keys = list(request.POST.keys())
+        keys = [k for k in keys if (k.startswith("plan-goal-input") and len(request.POST[k]) > 0)]
+
+        if len(keys) == 0:
+            planForm.add_error("","حداقل یک هدف اضافه کنید")
+            return render(request, 'planForm.html', {'planForm' : planForm})
+
         if planForm.is_valid():
-            planForm.save()
-            planForm=PlanForm
+            newPlan = planForm.save()
+            planForm = PlanForm
+            for k in keys:
+                PlanGoal.objects.create(body=request.POST[k], plan=newPlan)
+
         return render(request, 'planForm.html', {'planForm' : planForm})
 
 class PlanFormUpdateView(UpdateView):
@@ -48,7 +59,36 @@ class PlanFormUpdateView(UpdateView):
     template_name = 'planFormUpdate.html'
     success_url = '/plan/new'
 
-    # esm form va object ro chegoone mitavan taghiir dad ?
+
+    def get_context_data(self, **kwargs):
+        context = super(PlanFormUpdateView,self).get_context_data(**kwargs)
+        context['goals'] = self.object.goals.all()
+        context['number'] = len(self.object.goals.all())
+        return context
+
+
+    def post(self, request, *args, **kwargs):
+        planForm = PlanForm(request.POST, instance=self.get_object())
+
+        keys = list(request.POST.keys())
+        keys = [k for k in keys if (k.startswith("plan-goal-input") and len(request.POST[k]) > 0)]
+        keys.sort()
+
+        if len(keys) == 0:
+            planForm.add_error("","حداقل یک هدف اضافه کنید")
+            return render(request, 'planFormUpdate.html', {'planForm' : planForm})
+
+        if planForm.is_valid():
+            newPlan = planForm.save()
+            planForm = PlanForm
+
+            self.get_object().goals.all().delete()
+
+            for k in keys:
+                PlanGoal.objects.create(body=request.POST[k], plan=newPlan)
+            return HttpResponseRedirect(self.success_url)
+
+# esm form va object ro chegoone mitavan taghiir dad ?
 
 
 class PlanFormDeleteView(DeleteView):
@@ -222,6 +262,67 @@ class SciencePackageTopicUpdateView(UpdateView):
 
 
 class DocumentationDeleteView(DeleteView):
-    model = Plan
+    model = Documentation
     template_name = 'DocumentationDelete.html'
     success_url = '/documentation/new'
+
+class DocumentationUpdateView(UpdateView):
+    model=Documentation
+    form_class = DocumentationForm
+    template_name = "documentationUpdate.html"
+    success_url = "/documentation/new/"
+
+    def get_context_data(self, **kwargs):
+        context = super(DocumentationUpdateView, self).get_context_data(**kwargs)
+        context['documentation_suggested_solution'] = self.object.solutions.all()
+        context['documentation_keyword'] = self.object.keywords.all()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = DocumentationForm(request.POST, instance=self.get_object())
+        documentationForm = form
+        flag=False
+        for i in range (1,int(request.POST['suggested-solution-count'])+1):
+            str1 = 'suggested-solution-title-input-' + str(i)
+            str2 = 'suggested-solution-body-input-' + str(i)
+            if str1 in request.POST :
+                if len(request.POST[str1]) > 0 or len(request.POST[str2]) > 0:
+                    flag = True
+                    break
+        if not flag :
+            documentationForm.add_error("","no suggested solution")
+            return render(request, 'documentationUpdate.html', {'form':documentationForm,'documentation_suggested_solution':self.get_object().solutions.all(),'documentation_keyword':self.get_object().keywords.all() })
+
+        minKeywordsCnt = 1
+        flagCnt = 0
+        for i in range (1, int(request.POST['keywords-count'])+1) :
+            str1 = 'keywords-input-' + str(i)
+            if str1 in request.POST and  len(request.POST[str1]) > 0 :
+                flagCnt += 1
+        if flagCnt < minKeywordsCnt :
+            documentationForm.add_error("","not enough key words")
+            return render(request, 'documentationUpdate.html', {'form':documentationForm,'documentation_suggested_solution':self.get_object().solutions.all(),'documentation_keyword':self.get_object().keywords.all() })
+
+        if documentationForm.is_valid():
+            self.get_object().solutions.all().delete()
+            self.get_object().keywords.all().delete()
+            newDocumentation = documentationForm.save(commit=False)
+            newDocumentation.date = date.today()
+            newDocumentation.save()
+
+            for i in range (1,int(request.POST['suggested-solution-count'])+1):
+                str1 = 'suggested-solution-title-input-' + str(i)
+                str2 = 'suggested-solution-body-input-' + str(i)
+                if str1 in request.POST :
+                    if len(request.POST[str1]) > 0 or len(request.POST[str2]) > 0:
+                        DocumentationSuggestedSolution.objects.create(title=request.POST[str1], description=request.POST[str2], documentation=newDocumentation)
+
+            for i in range (1, int(request.POST['keywords-count'])+1) :
+                str1 = 'keywords-input-' + str(i)
+                if str1 in request.POST and  len(request.POST[str1]) > 0 :
+                    DocumentationKeyword.objects.create(name=request.POST[str1], documentation=newDocumentation)
+        else:
+            return HttpResponse(documentationForm.errors)
+
+
+        return HttpResponseRedirect(self.success_url)

@@ -17,6 +17,13 @@ class DocumentationAdmin(admin.ModelAdmin):
     inlines = (SuggestedSolutionAdminInline, KeywordAdminInline, )
 
 
+class PlanGoalInLine(admin.TabularInline):
+    model = PlanGoal
+    extra = 0
+
+class PlanAdmin(admin.ModelAdmin):
+    inlines = (PlanGoalInLine,)
+
 admin.site.register(Project)
 admin.site.register(ScientificArea)
 admin.site.register(OutputChoice)
@@ -27,4 +34,7 @@ admin.site.register(IntellectualPropertyChoice)
 admin.site.register(Documentation, DocumentationAdmin)
 admin.site.register(MoaChoice)
 admin.site.register(SciencePackageTopic)
+admin.site.register(Plan, PlanAdmin)
+admin.site.register(PlanGoal)
+
 

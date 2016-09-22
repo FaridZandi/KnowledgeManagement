@@ -6,6 +6,63 @@
     <title>
         Edit Plan
     </title>
+    <style>
+        .plan-goal-input{
+        }
+        .delete-plan-goal > span{
+        }
+        .add-plan-goal > span{
+        }
+    </style>
+
+    <script>
+        var lastAddedPlanGoal = {{ number }} + 1;
+        $(document).ready(function(){
+            $(document).on('keypress', ".plan-goal-input", function(event){
+                if(event.which == 13)
+                {
+                    event.preventDefault();
+                    var planGoalsDiv = $(this).parents().eq(3);
+                    addNewPlanGoal(planGoalsDiv);
+                    return false;
+                }
+            });
+
+
+            $(document).on('click' , '.delete-plan-goal', function(){
+                $(this).parents().eq(2).remove();
+            });
+
+            $(document).on('click' , '.add-plan-goal', function(){
+                var planGoalsDiv = $(this).parents().eq(3);
+                addNewPlanGoal(planGoalsDiv);
+            })
+
+        });
+
+
+        function addNewPlanGoal(planGoalsDiv){
+            lastAddedPlanGoal ++;
+            var number = lastAddedPlanGoal;
+
+            var appendingData = '<div class="row" style="margin-top:10px"> '+
+                    ' <div class="input-group"> '+
+                    '<div class="input-group-addon">'+
+                    ' <span class="glyphicon glyphicon-trash delete-plan-goal"></span> '+
+                    '</div>'+
+                    ' <div id="plan-goal-' + number + '"> '+
+                    ' <input type="text" id="plan-goal-input-' + number + '" '+ ' name="plan-goal-input-' + number + '" '+ ' class="plan-goal-input form-control"/> '+
+                    ' </div> '+
+                    ' </div> '+
+                    ' </div> ';
+
+            $(planGoalsDiv).append(appendingData);
+
+            var appendedInputId = "plan-goal-input-" + number;
+
+            $("#" + appendedInputId).focus();
+        }
+    </script>
 {% endblock %}
 
 {% block content %}
@@ -21,20 +78,45 @@
             <div class="form-group">
                 {{ form.title.label_tag}} {{ form.title | add_class:'form-control' | attr:"placeholder:Enter Title"}}
                 {% if form.title.errors %}
-                {% for error in form.title.errors %}
-                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
-                {% endfor %}
-            {% endif %}
+                    {% for error in form.title.errors %}
+                        <p class="text-danger" style="font-size: small" > {{ error }} </p>
+                    {% endfor %}
+                {% endif %}
             </div>
 
             <div class="form-group">
                 {{ form.number.label_tag }} {{ form.number | add_class:'form-control' }}
                 {% if form.number.errors %}
-                {% for error in form.number.errors %}
-                    <p class="text-danger" style="font-size: small" > {{ error }} </p>
-                {% endfor %}
-            {% endif %}
+                    {% for error in form.number.errors %}
+                        <p class="text-danger" style="font-size: small" > {{ error }} </p>
+                    {% endfor %}
+                {% endif %}
             </div>
+
+            <div class="form-group">
+                <label>Goals:</label>
+                <div id="plan-goals">
+                    {% for goal in goals %}
+                        <div class="row " style="margin-top:10px">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    {% if forloop.first %}
+                                        <span class="glyphicon glyphicon-plus add-plan-goal"></span>
+                                    {% else %}
+                                        <span class="glyphicon glyphicon-trash delete-plan-goal"></span>
+                                    {% endif %}
+                                </div>
+                                <div id="plan-goal-" + {{ forloop.counter }}>
+                                    <input type="text" id="plan-goal-input-{{ forloop.counter }}" name="plan-goal-input-{{ forloop.counter }}" class="plan-goal-input form-control" value = "{{goal.body}}">
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+
 
             <div class="form-group">
                 <input class="btn btn-warning" value="Edit" type="submit">

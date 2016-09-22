@@ -70,8 +70,8 @@
     <div>
         <form action="" method="post" class="form-horizontal">
             {% csrf_token %}
-            {% if planForm.non_fields_error %}
-                {% for error in planForm.non_fields_error %}
+            {% if planForm.non_field_errors %}
+                {% for error in planForm.non_field_errors %}
                     <p class="text-danger" style="font-size: small" > {{ error }} </p>
                 {% endfor %}
             {% endif %}
