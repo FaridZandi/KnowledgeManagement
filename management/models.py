@@ -15,7 +15,10 @@ class Plan(models.Model):
 
 class PlanGoal(models.Model):
     body = models.TextField(verbose_name="متن")
-    project = models.ForeignKey(Plan, related_name="goals")
+    plan = models.ForeignKey(Plan, related_name="goals")
+
+    def __str__(self):
+        return self.body
 
 
 class Project(models.Model):

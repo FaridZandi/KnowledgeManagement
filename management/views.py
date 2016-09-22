@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import HttpResponse
 from django.shortcuts import render
 from django.views.generic import DeleteView
@@ -35,9 +36,20 @@ class PlanFormView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         planForm = PlanForm(request.POST)
+
+        keys = list(request.POST.keys())
+        keys = [k for k in keys if (k.startswith("plan-goal-input") and len(request.POST[k]) > 0)]
+
+        if len(keys) == 0:
+            planForm.add_error("","حداقل یک هدف اضافه کنید")
+            return render(request, 'planForm.html', {'planForm' : planForm})
+
         if planForm.is_valid():
-            planForm.save()
-            planForm=PlanForm
+            newPlan = planForm.save()
+            planForm = PlanForm
+            for k in keys:
+                PlanGoal.objects.create(body=request.POST[k], plan=newPlan)
+
         return render(request, 'planForm.html', {'planForm' : planForm})
 
 class PlanFormUpdateView(UpdateView):
@@ -46,7 +58,36 @@ class PlanFormUpdateView(UpdateView):
     template_name = 'planFormUpdate.html'
     success_url = '/plan/new'
 
-    # esm form va object ro chegoone mitavan taghiir dad ?
+
+    def get_context_data(self, **kwargs):
+        context = super(PlanFormUpdateView,self).get_context_data(**kwargs)
+        context['goals'] = self.object.goals.all()
+        context['number'] = len(self.object.goals.all())
+        return context
+
+
+    def post(self, request, *args, **kwargs):
+        planForm = PlanForm(request.POST, instance=self.get_object())
+
+        keys = list(request.POST.keys())
+        keys = [k for k in keys if (k.startswith("plan-goal-input") and len(request.POST[k]) > 0)]
+        keys.sort()
+
+        if len(keys) == 0:
+            planForm.add_error("","حداقل یک هدف اضافه کنید")
+            return render(request, 'planFormUpdate.html', {'planForm' : planForm})
+
+        if planForm.is_valid():
+            newPlan = planForm.save()
+            planForm = PlanForm
+
+            self.get_object().goals.all().delete()
+
+            for k in keys:
+                PlanGoal.objects.create(body=request.POST[k], plan=newPlan)
+            return HttpResponseRedirect(self.success_url)
+
+# esm form va object ro chegoone mitavan taghiir dad ?
 
 
 class PlanFormDeleteView(DeleteView):
