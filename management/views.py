@@ -242,10 +242,9 @@ class SciencePackageTopicUpdateView(UpdateView):
     def post(self, request, pk, *args, **kwargs):
         form = SciencePackageTopicForm(request.POST, instance=self.get_object())
         if form.is_valid():
-
             updated_object = form.save(commit=False)
             if 'plan_or_project' in self.request.POST:
-                value = self.request.POST['plan_or_project']
+                value = request.POST['plan_or_project']
                 if value == 'plan':
                     updated_object.project = None
                 if value == 'project':
@@ -253,9 +252,7 @@ class SciencePackageTopicUpdateView(UpdateView):
 
                 if (updated_object.plan is None) and (updated_object.project is None):
                     form.add_error("", "هیچ طرح یا پروژه ای انتخاب نشده است.")
-                    # return render(request, )
-                    return HttpResponseRedirect(reverse('sciencePackageTopicUpdate', kwargs={'pk': self.get_object().id}))
-
+                    return render(request, 'SciencePackageTopicUpdate.html', {'science_package_topic_form': form})
             updated_object.save()
             return HttpResponseRedirect(self.success_url)
         return render(self.request, 'SciencePackageTopicUpdate.html', {'science_package_topic_form': form})
