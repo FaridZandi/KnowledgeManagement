@@ -26,4 +26,5 @@ admin.site.register(ExplicitPenChoices)
 admin.site.register(IntellectualPropertyChoice)
 admin.site.register(Documentation, DocumentationAdmin)
 admin.site.register(MoaChoice)
+admin.site.register(SciencePackageTopic)
 

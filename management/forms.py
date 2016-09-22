@@ -49,8 +49,8 @@ class DocumentationForm(forms.ModelForm):
 
 
 class SciencePackageTopicForm(forms.ModelForm):
-    plan = forms.ModelChoiceField(queryset=Plan.objects.all())
-    project = forms.ModelChoiceField(queryset=Project.objects.all())
+    # plan = forms.ModelChoiceField(queryset=Plan.objects.all())
+    # project = forms.ModelChoiceField(queryset=Project.objects.all())
 
     def __init__(self, *args, **kwargs):
         super(SciencePackageTopicForm, self).__init__(*args, **kwargs)
@@ -62,4 +62,4 @@ class SciencePackageTopicForm(forms.ModelForm):
 
     class Meta:
         model = SciencePackageTopic
-        fields = ['title', 'description']
+        fields = ['title', 'description', 'plan', 'project']

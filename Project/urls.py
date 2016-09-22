@@ -17,6 +17,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from management.views import *
+#
 
 
 
@@ -34,5 +35,6 @@ urlpatterns = [
     url(r'^scientificarea/update/(?P<pk>\d+)/$',ScientificAreaUpdateView.as_view(),name='updateScientificArea'),
     url(r'^scientificarea/delete/(?P<pk>\d+)/$', ScientificAreaDeleteView.as_view(),name='deleteScientificArea'),
     url(r'^documentation/delete/(?P<pk>\d+)/$', DocumentationDeleteView.as_view(), name='documentationFormDelete'),
-    url(r'^sciencepackagetopic/new/$', SciencePackageTopicView.as_view(), name='sciencePackageTopicCreate'),
+    url(r'^sciencepackagetopic/new/$', SciencePackageTopicCreateView.as_view(), name='sciencePackageTopicCreate'),
+    url(r'^sciencepackagetopic/update/(?P<pk>\d+)/$', SciencePackageTopicUpdateView.as_view(), name='sciencePackageTopicUpdate'),
 ]

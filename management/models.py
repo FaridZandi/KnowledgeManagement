@@ -29,6 +29,9 @@ class Project(models.Model):
     result = models.TextField(verbose_name="نتیجه گیری")
     plan = models.ForeignKey(Plan, related_name="projects")
 
+    def __str__(self):
+        return self.title
+
 
 class ProjectGoal(models.Model):
     body = models.TextField(verbose_name="متن")
@@ -183,8 +186,8 @@ class DocumentationKeyword(models.Model):
 
 class SciencePackageTopic(models.Model):
     # TODO: in the form a radio button must be shown to choose between plans and project. Each one checked will be shown
-    project = models.ForeignKey(Project, verbose_name="پروژه")
-    plan = models.ForeignKey(Plan, verbose_name="طرح")
+    project = models.ForeignKey(Project, verbose_name="پروژه", null=True, blank=True)
+    plan = models.ForeignKey(Plan, verbose_name="طرح", null=True, blank=True)
 
     title = models.CharField(verbose_name="عنوان", max_length=200)
     description = models.TextField(verbose_name="شرح مختصر")

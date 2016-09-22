@@ -1,3 +1,5 @@
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import HttpResponse
 from django.shortcuts import render
 from django.views.generic import DeleteView
@@ -155,10 +157,68 @@ class DocumentationView(TemplateView):
         return render(request, 'DocumentationCreate.html', {'form':documentationForm})
 
 
-class SciencePackageTopicView(TemplateView):
+class SciencePackageTopicCreateView(TemplateView):
     def get(self, request, *args, **kwargs):
         science_package_topic_form = SciencePackageTopicForm
         return render(request, 'SciencePackageTopicCreate.html', {'science_package_topic_form': science_package_topic_form})
+
+    def post(self, request, *args, **kwargs):
+        science_package_topic_form = SciencePackageTopicForm(request.POST)
+        if science_package_topic_form.is_valid():
+            new_science_package_topic = science_package_topic_form.save(commit=False)
+
+            if 'plan_or_project' in request.POST:
+
+                value = request.POST['plan_or_project']
+                if value == 'plan':
+                    new_science_package_topic.project = None
+                if value == 'project':
+                    new_science_package_topic.plan = None
+
+            if (new_science_package_topic.plan is None) and (new_science_package_topic.project is None):
+                science_package_topic_form.add_error("", "هیچ طرح یا پروژه ای انتخاب نشده است.")
+                return render(request, 'SciencePackageTopicCreate.html', {'science_package_topic_form': science_package_topic_form})
+            new_science_package_topic.save()
+            science_package_topic_form = SciencePackageTopicForm
+        return render(request, 'SciencePackageTopicCreate.html', {'science_package_topic_form': science_package_topic_form})
+
+
+class SciencePackageTopicUpdateView(UpdateView):
+    model = SciencePackageTopic
+    template_name = 'SciencePackageTopicUpdate.html'
+    success_url = '/sciencepackagetopic/new/'
+    form_class = SciencePackageTopicForm
+
+    def get_context_data(self, **kwargs):
+        data = super(SciencePackageTopicUpdateView, self).get_context_data(**kwargs)
+        data['science_package_topic_form'] = data.get('form')
+
+        if self.object.project is None:
+            data['plan_or_project'] = 'plan'
+        else:
+            data['plan_or_project'] = 'project'
+        return data
+
+    def post(self, request, pk, *args, **kwargs):
+        form = SciencePackageTopicForm(request.POST, instance=self.get_object())
+        if form.is_valid():
+
+            updated_object = form.save(commit=False)
+            if 'plan_or_project' in self.request.POST:
+                value = self.request.POST['plan_or_project']
+                if value == 'plan':
+                    updated_object.project = None
+                if value == 'project':
+                    updated_object.plan = None
+
+                if (updated_object.plan is None) and (updated_object.project is None):
+                    form.add_error("", "هیچ طرح یا پروژه ای انتخاب نشده است.")
+                    # return render(request, )
+                    return HttpResponseRedirect(reverse('sciencePackageTopicUpdate', kwargs={'pk': self.get_object().id}))
+
+            updated_object.save()
+            return HttpResponseRedirect(self.success_url)
+        return render(self.request, 'SciencePackageTopicUpdate.html', {'science_package_topic_form': form})
 
 
 class DocumentationDeleteView(DeleteView):

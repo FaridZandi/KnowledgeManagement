@@ -5,30 +5,31 @@
 {% block head %}
     <title> Forms </title>
     <script>
+        var lastAddedProjectGoal = 1;
         $(document).ready(function () {
-            $("#id_start_date").persianDatepicker({
+
+            $(".datepicker").persianDatepicker({
                 formatDate: "YYYY/0M/0D",
                 cellWidth: 30,
                 cellHeight: 30,
-                <!-- startDate: "1394/11/12", -->
-                <!-- endDate:"1396/5/5", -->
+                startDate: "1300/1/1",
+                endDate:"1500/1/1",
                 onSelect: function () {
                     {#                    setGregorian()#}
                 }
             });
-            $("#id_end_date").persianDatepicker({
-                formatDate: "YYYY/0M/0D",
-                cellWidth:30,
-                cellHeight:30,
-                <!-- startDate: "1394/11/12", -->
-                <!-- endDate:"1396/5/5", -->
-                onSelect:function () {
-{#                    setGregorian()#}
-                }
-            });
-        });
-        var lastAddedProjectGoal = 1;
-        $(document).ready(function () {
+{#            $("#id_end_date").persianDatepicker({#}
+{#                formatDate: "YYYY/0M/0D",#}
+{#                cellWidth:30,#}
+{#                cellHeight:30,#}
+{#                startDate: "1300/1/1",#}
+{#                endDate:"1500/1/1",#}
+{#                onSelect:function () {#}
+                    {#                    setGregorian()#}
+{#                }#}
+{#            });#}
+
+
             $(document).on('keypress', ".project-goal-input", function (event) {
                 if (event.which == 13) {
                     event.preventDefault();
@@ -39,11 +40,13 @@
             });
 
 
-            $(document).on('click', '.delete-project-goal', function () {
+            $(document).on('click', '.delete-project-goal', function (e) {
+                e.preventDefault();
                 $(this).parents().eq(1).remove();
             });
 
-            $(document).on('click', '.add-project-goal', function () {
+            $(document).on('click', '.add-project-goal', function (e) {
+                e.preventDefault();
                 addNewProjectGoal();
             })
 
@@ -76,9 +79,7 @@
             $("#" + appendedInputId).focus();
         }
     </script>
-
     <link rel="stylesheet" href="{% static 'PersianDatePicker/css/style.css' %}">
-{#    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/main.css' %}">#}
     <link rel="stylesheet" href="{% static 'PersianDatePicker/css/persianDatepicker-default.css' %}">
     <script src="{% static 'PersianDatePicker/js/persianDatepicker.min.js' %}"></script>
     <script>
@@ -98,6 +99,11 @@
 		.add-project-goal > span{
 			margin-top: 10px;
 		}
+        input .input_bootstrap_style{
+            padding: 5px;
+            border: 1px solid #aaa;
+            border-radius: 3px;
+        }
 	</style>
 
 
@@ -127,10 +133,10 @@
                         {% endfor %}
                     {% endif %}
                 </div>
-                <div class="row">
+                <div class="row" style="margin-top: 35px;">
                     <div class="col-md-6">
                         <div class="form-group">
-                            {{ projectForm.start_date.label_tag }} {{ projectForm.start_date|add_class:"datepicker" }}
+                            {{ projectForm.start_date.label_tag }} {{ projectForm.start_date|add_class:"datepicker input_bootstrap_style" }}
                             {% if projectForm.start_date.errors %}
                                 {% for error in projectForm.start_date.errors %}
                                     <p class="text-danger" style="font-size: small"> {{ error }} </p>
@@ -140,7 +146,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            {{ projectForm.end_date.label_tag }} {{ projectForm.end_date|add_class:"datepicker" }}
+                            {{ projectForm.end_date.label_tag }} {{ projectForm.end_date|add_class:"datepicker input_bootstrap_style" }}
                             {% if projectForm.end_date.errors %}
                                 {% for error in projectForm.end_date.errors %}
                                     <p class="text-danger" style="font-size: small"> {{ error }} </p>
@@ -151,10 +157,10 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-1">
+                    <div class="row" style="margin-top:20px">
+                        <div class="col-md-1"><label style="margin-top: 5px;">
                             اهداف:
-                        </div>
+                        </label></div>
                         <div class="col-md-11" id="project-goals">
                             <div class="row">
                                 <div class="col-md-11">

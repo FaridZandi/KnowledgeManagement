@@ -10,6 +10,7 @@
     </style>
     <script>
         $(document).ready(function(){
+            check_plan_or_project();
             $(document).on("change", "input[name=plan_or_project]", function(){
                 check_plan_or_project();
             })
@@ -31,7 +32,12 @@
 {% block content %}
     <form action="" method="post" >
         {% csrf_token %}
+        {% if an %}
+            goh
+        {% endif %}
         {{ science_package_topic_form.non_field_errors }}
+
+
         <div class="row form-group" >
             <div class="col-md-2">
                 {{ science_package_topic_form.title.label_tag }}
@@ -57,10 +63,10 @@
                 مربوط به:
             </div>
             <div class="col-md-3">
-                <input checked="checked" type="radio" name="plan_or_project" value="plan" id="pop_plan">
+                <input {% if plan_or_project %} {% if plan_or_project == 'plan'%} checked="checked" {% endif %} {% else %} checked="checked" {% endif %} type="radio" name="plan_or_project" value="plan" id="pop_plan">
                 <label for="pop_plan" class="radio-inline no_padding_margin"> طرح </label>
 
-                <input type="radio" name="plan_or_project" value="project" id="pop_project">
+                <input {% if plan_or_project %} {% if plan_or_project == 'project'%} checked="checked" {% endif %}{% endif %} type="radio" name="plan_or_project" value="project" id="pop_project">
                 <label for="pop_project" class="radio-inline no_padding_margin"> پروژه </label>
             </div>
             <div class="col-md-7">
