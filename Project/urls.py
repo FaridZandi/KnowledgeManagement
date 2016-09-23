@@ -37,4 +37,5 @@ urlpatterns = [
     url(r'^sciencepackagetopic/new/$', SciencePackageTopicCreateView.as_view(), name='sciencePackageTopicCreate'),
     url(r'^documentation/update/(?P<pk>\d+)/$',DocumentationUpdateView.as_view(),name='updateDocumentation'),
     url(r'^sciencepackagetopic/update/(?P<pk>\d+)/$', SciencePackageTopicUpdateView.as_view(), name='sciencePackageTopicUpdate'),
+    url(r'^sciencepackagetopic/delete/(?P<pk>\d+)/$', SciencePackageTopicDeleteView.as_view(), name='sciencePackageTopicDelete'),
 ]

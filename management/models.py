@@ -196,6 +196,7 @@ class SciencePackageTopic(models.Model):
     description = models.TextField(verbose_name="شرح مختصر")
 
 
+
 class SciencePackage(models.Model):
     # TODO: in the form a radio button must be shown to choose between plans and project. Each one checked will be shown
     project = models.ForeignKey(Project)

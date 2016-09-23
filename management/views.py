@@ -5,12 +5,10 @@ from django.shortcuts import render
 from django.views.generic import DeleteView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
-
 from django.views.generic import TemplateView, UpdateView, DeleteView
 from management.models import *
 from management.forms import *
-
-from datetime import  date
+from datetime import date
 # Create your views here.
 
 
@@ -258,10 +256,17 @@ class SciencePackageTopicUpdateView(UpdateView):
         return render(self.request, 'SciencePackageTopicUpdate.html', {'science_package_topic_form': form})
 
 
+class SciencePackageTopicDeleteView(DeleteView):
+    model = SciencePackageTopic
+    template_name = 'SciencePackageTopicDelete.html'
+    success_url = '/sciencepackagetopic/new/'
+
+
 class DocumentationDeleteView(DeleteView):
     model = Documentation
     template_name = 'DocumentationDelete.html'
     success_url = '/documentation/new'
+
 
 class DocumentationUpdateView(UpdateView):
     model=Documentation

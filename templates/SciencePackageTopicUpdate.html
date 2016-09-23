@@ -30,35 +30,55 @@
     </script>
 {% endblock %}
 {% block content %}
+    <h3>بروز رسانی سرفصل بسته ی دانش </h3>
+    <br/>
     <form action="" method="post" >
         {% csrf_token %}
-        {{ science_package_topic_form.non_field_errors }}
 
+        <div class="row">
+            {% for error in science_package_topic_form.non_field_errors %}
+                <div class="alert alert-danger">
+                    { error }}
+                </div>
+            {% endfor %}
+        </div>
 
         <div class="row form-group" >
-            <div class="col-md-2">
+            <div class="col-md-1">
                 {{ science_package_topic_form.title.label_tag }}
             </div>
-            <div class="col-md-10">
+            <div class="col-md-11">
                 {{ science_package_topic_form.title|add_class:"form-control"}}
-                {{ science_package_topic_form.title.errors }}
             </div>
         </div>
 
+        <div class="row">
+            {% for error in science_package_topic_form.title.errors %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </div>
+
         <div class="row form-group">
-            <div class="col-md-2">
+            <div class="col-md-1">
                 {{ science_package_topic_form.description.label_tag }}
             </div>
-            <div class="col-md-10">
+            <div class="col-md-11">
                 {{ science_package_topic_form.description|add_class:"form-control" }}
-                {{ science_package_topic_form.description.errors }}
             </div>
         </div>
-
+        <div class="row">
+            {% for error in science_package_topic_form.description.errors %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </div>
         <div class="row form-group">
-            <div class="col-md-2">
+            <div class="col-md-1"><label for="id_plan">
                 مربوط به:
-            </div>
+            </label></div>
             <div class="col-md-3">
                 <input {% if plan_or_project %} {% if plan_or_project == 'plan'%} checked="checked" {% endif %} {% else %} checked="checked" {% endif %} type="radio" name="plan_or_project" value="plan" id="pop_plan">
                 <label for="pop_plan" class="radio-inline no_padding_margin"> طرح </label>
@@ -66,16 +86,13 @@
                 <input {% if plan_or_project %} {% if plan_or_project == 'project'%} checked="checked" {% endif %}{% endif %} type="radio" name="plan_or_project" value="project" id="pop_project">
                 <label for="pop_project" class="radio-inline no_padding_margin"> پروژه </label>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-8">
                 <div id="plan_select" class="row">
                     <div class="col-md-2 text-left" style="padding-top:5px;">
                         طرح ها:
                     </div>
                     <div class="col-md-6">
                         {{ science_package_topic_form.plan|add_class:"form-control"}}
-                    </div>
-                    <div class="col-md-4">
-                        {{ science_package_topic_form.plan.errors }}
                     </div>
                 </div>
                 <div id="project_select" class="row" style="display: none;">
@@ -85,15 +102,26 @@
                     <div class="col-md-6">
                         {{ science_package_topic_form.project|add_class:"form-control"}}
                     </div>
-                    <div class="col-md-4">
-                        {{ science_package_topic_form.project.errors }}
-                    </div>
                 </div>
             </div>
         </div>
+        <div class="row">
+            {% for error in science_package_topic_form.project.errors %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            {% for error in science_package_topic_form.plan.errors %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </div>
         <div class="row form-group">
-            <div class="col-md-10 col-md-push-2">
-                <input class="btn btn-success" type="submit" value="ثبت">
+            <div class="col-md-11 col-md-push-1">
+                <input class="btn btn-warning" type="submit" value="ذخیره تغییرات">
             </div>
         </div>
     </form>
