@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block head %}
+    <title>New scientific area</title>
+    <style>
+        .no_padding_margin {
+            padding: 0;
+            margin: 0;
+        }
+
+        .second_level_input_group {
+            padding-right: 20px;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $(document).on("change", "input[name=plan_or_project]", function () {
+                check_plan_or_project();
+            })
+        });
+
+        function check_plan_or_project() {
+            value = $("input[name=plan_or_project]:checked").val();
+            if (value == "plan") {
+                $("#project_select").hide();
+                $("#plan_select").show();
+                $("#id_plan").focus();
+            }
+            else if (value == "project") {
+                $("#plan_select").hide();
+                $("#project_select").show();
+                $("#id_project").focus();
+            }
+        }
+    </script>
+{% endblock %}
+{% block content %}
+    <h3>بروز رسانی بسته ی دانش جدید</h3>
+    <br/>
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <div class="row">
+            {% for error in science_package_form.non_field_errors %}
+                <div class="alert alert-danger">
+                    { error }}
+                </div>
+            {% endfor %}
+        </div>
+        <h4> موارد عمومی:</h4>
+        <div class="second_level_input_group">
+            <div class="row form-group">
+                <div class="col-md-1"><label>
+                    مربوط به:
+                </label></div>
+                <div class="col-md-3">
+                    <input {% if plan_or_project %} {% if plan_or_project == 'plan' %} checked="checked"
+                    {% endif %} {% else %} checked="checked" {% endif %} type="radio" name="plan_or_project"
+                                                                                       value="plan" id="pop_plan">
+                    <label for="pop_plan" class="radio-inline no_padding_margin"> طرح </label>
+
+                    <input {% if plan_or_project %} {% if plan_or_project == 'project' %} checked="checked"
+                    {% endif %}{% endif %} type="radio" name="plan_or_project" value="project" id="pop_project">
+                    <label for="pop_project" class="radio-inline no_padding_margin"> پروژه </label>
+                </div>
+                <div class="col-md-8">
+                    <div id="plan_select" class="row">
+                        <div class="col-md-2 text-left" style="padding-top:5px;">
+                            طرح ها:
+                        </div>
+                        <div class="col-md-6">
+                            {{ science_package_form.plan|add_class:"form-control" }}
+                        </div>
+                    </div>
+                    <div id="project_select" class="row" style="display: none;">
+                        <div class="col-md-2 text-left" style="padding-top:5px;">
+                            پروژه ها:
+                        </div>
+                        <div class="col-md-6">
+                            {{ science_package_form.project|add_class:"form-control" }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                {% for error in science_package_form.project.errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                {% for error in science_package_form.plan.errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <h4>محصول:</h4>
+        <div class="second_level_input_group">
+            <div class="row form-group">
+                <div class="col-md-1">
+                    {{ science_package_form.product_name.label_tag }}
+                </div>
+                <div class="col-md-11">
+                    {{ science_package_form.product_name|add_class:"form-control" }}
+                </div>
+            </div>
+
+            <div class="row">
+                {% for error in science_package_form.product_name.errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-1">
+                    {{ science_package_form.product_science.label_tag }}
+                </div>
+                <div class="col-md-11">
+                    {{ science_package_form.product_science|add_class:"form-control" }}
+                </div>
+            </div>
+
+            <div class="row">
+                {% for error in science_package_form.product_science.errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-1">
+                    {{ science_package_form.product_features.label_tag }}
+                </div>
+                <div class="col-md-11">
+                    {{ science_package_form.product_features|add_class:"form-control" }}
+                </div>
+            </div>
+
+            <div class="row">
+                {% for error in science_package_form.product_features.errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <h4>تهیه کنندگان دانش:</h4>
+        <div class="second_level_input_group">
+            لیستی از اشخاص باید اینجا وارد شود.
+        </div>
+        <h4>موارد اختصاصی:</h4>
+        <div class="second_level_input_group">
+            <div class="row form-group">
+                <div class="col-md-1">
+                    {{ science_package_form.title.label_tag }}
+                </div>
+                <div class="col-md-11">
+                    {{ science_package_form.title|add_class:"form-control" }}
+                </div>
+            </div>
+
+            <div class="row">
+                {% for error in science_package_form.title.errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+
+
+            <div class="row form-group">
+                <div class="col-md-1">
+                    {{ science_package_form.scientificArea.label_tag }}
+                </div>
+                <div class="col-md-11">
+                    {{ science_package_form.scientificArea|add_class:"form-control" }}
+                </div>
+            </div>
+
+
+            <div class="row">
+                {% for error in science_package_form.scientificArea.errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <h4>سرفصل بسته ی دانش:</h4>
+        <div class="second_level_input_group">
+            <div class="row form-group">
+                <div class="col-md-1">
+                    {{ science_package_form.science_package_topic.label_tag }}
+                </div>
+                <div class="col-md-11">
+                    {{ science_package_form.science_package_topic|add_class:"form-control" }}
+                </div>
+            </div>
+
+            <div class="row">
+                {% for error in science_package_form.science_package_topic.errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <h4>دانش های برداشت شده:</h4>
+        <div class="second_level_input_group">
+            <div class="row form-group">
+                <div class="col-md-1">
+                    {{ science_package_form.lessons.label_tag }}
+                </div>
+                <div class="col-md-11">
+                    {{ science_package_form.lessons|add_class:"form-control" }}
+                </div>
+            </div>
+
+            <div class="row">
+                {% for error in science_package_form.lessons.errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-1">
+                    {{ science_package_form.skills.label_tag }}
+                </div>
+                <div class="col-md-11">
+                    {{ science_package_form.skills|add_class:"form-control" }}
+                </div>
+            </div>
+
+            <div class="row">
+                {% for error in science_package_form.skills.errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-1">
+                    {{ science_package_form.tools.label_tag }}
+                </div>
+                <div class="col-md-11">
+                    {{ science_package_form.tools|add_class:"form-control" }}
+                </div>
+            </div>
+
+            <div class="row">
+                {% for error in science_package_form.tools.errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+        <div class="row form-group second_level_input_group">
+            <div class="col-md-11 col-md-push-1">
+                <input class="btn btn-warning" type="submit" value="ذخیره تغییرات">
+            </div>
+        </div>
+    </form>
+{% endblock %}

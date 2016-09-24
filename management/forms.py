@@ -6,7 +6,6 @@ from django.forms import ModelChoiceField
 from management.models import *
 from django import forms
 
-
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
@@ -62,4 +61,28 @@ class SciencePackageTopicForm(forms.ModelForm):
 
     class Meta:
         model = SciencePackageTopic
-        fields = ['title', 'description', 'plan', 'project']
+        fields = ['plan', 'project', 'title', 'description']
+
+
+class SciencePackageForm(forms.ModelForm):
+    # plan = forms.ModelChoiceField(queryset=Plan.objects.all())
+    # project = forms.ModelChoiceField(queryset=Project.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        super(SciencePackageForm, self).__init__(*args, **kwargs)
+        if len(self.fields['plan'].queryset) != 0:
+            self.fields['plan'].empty_label = None
+
+        if len(self.fields['project'].queryset) != 0:
+            self.fields['project'].empty_label = None
+
+        if len(self.fields['scientificArea'].queryset) != 0:
+            self.fields['scientificArea'].empty_label = None
+
+        if len(self.fields['science_package_topic'].queryset) != 0:
+            self.fields['science_package_topic'].empty_label = None
+
+    class Meta:
+        model = SciencePackage
+        fields = ['plan', 'project', 'product_name', 'product_science', 'product_features', 'title', 'scientificArea',
+                  'science_package_topic', 'lessons', 'skills', 'tools']

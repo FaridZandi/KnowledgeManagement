@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block head %}
+    <title>
+        Delete Documentation
+    </title>
+{% endblock %}
+
+{% block content %}
+    <h3>حذف بسته ی دانش </h3>
+    <br/>
+    <form action="" method="post">
+
+        {% csrf_token %}
+        <p>
+            آیا مایل به حذف
+        "{{ object.title }}"
+         هستید؟
+        </p>
+        <input type="submit" value="حذف" class="btn btn-danger">
+    </form>
+{% endblock %}

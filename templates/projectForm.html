@@ -6,29 +6,55 @@
     <title> Forms </title>
     <script>
         var lastAddedProjectGoal = 1;
-        $(document).ready(function () {
 
-            $(".datepicker").persianDatepicker({
+        function setGregorian(jalaliInputElement, gregorianOutputElement)
+        {
+            try{
+                var pd = new persianDate();
+                var JalaliDate = jalaliInputElement.val();
+                var splited = JalaliDate.split("/");
+                pd.year = parseInt(splited[0]);
+                pd.month = parseInt(splited[1]);
+                pd.date = parseInt(splited[2]);
+                var jdf = new jDateFunctions();
+                gregorianOutputElement.val(jdf.getGDate(pd)._toString("YYYY-MM-DD"));
+            } catch (e) {
+                gregorianOutputElement.val("");
+            }
+        }
+
+        $(document).ready(function () {
+            $("#start_date_jalali").persianDatepicker({
                 formatDate: "YYYY/0M/0D",
                 cellWidth: 30,
                 cellHeight: 30,
                 startDate: "1300/1/1",
                 endDate:"1500/1/1",
+                selectedDate:"today",
                 onSelect: function () {
-                    {#                    setGregorian()#}
+                    setGregorian( $("#start_date_jalali"), $("#id_start_date"))
                 }
             });
-{#            $("#id_end_date").persianDatepicker({#}
-{#                formatDate: "YYYY/0M/0D",#}
-{#                cellWidth:30,#}
-{#                cellHeight:30,#}
-{#                startDate: "1300/1/1",#}
-{#                endDate:"1500/1/1",#}
-{#                onSelect:function () {#}
-                    {#                    setGregorian()#}
-{#                }#}
-{#            });#}
+            $(document).on("change keyup paste","#jalali_start_date",function() {
+                setGregorian( $("#jalali_start_date") , $("#id_start_date"))
+            });
 
+
+            $("#end_date_jalali").persianDatepicker({
+                formatDate: "YYYY/0M/0D",
+                cellWidth: 30,
+                cellHeight: 30,
+                startDate: "1300/1/1",
+                endDate:"1500/1/1",
+                selectedDate:"today",
+                onSelect: function () {
+                    setGregorian( $("#end_date_jalali"), $("#id_end_date"))
+                }
+            });
+
+            $(document).on("change keyup paste","#jalali_end_date",function() {
+                setGregorian( $("#jalali_end_date") , $("#id_end_date"))
+            });
 
             $(document).on('keypress', ".project-goal-input", function (event) {
                 if (event.which == 13) {
@@ -79,9 +105,8 @@
             $("#" + appendedInputId).focus();
         }
     </script>
-    <link rel="stylesheet" href="{% static 'PersianDatePicker/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'PersianDatePicker/css/persianDatepicker-default.css' %}">
-    <script src="{% static 'PersianDatePicker/js/persianDatepicker.min.js' %}"></script>
+    <script src="{% static 'PersianDatePicker/js/persianDatepicker.js' %}"></script>
     <script>
         function vezhide(e){
             document.getElementById(e).innerHTML += "z";
@@ -136,22 +161,38 @@
                 <div class="row" style="margin-top: 35px;">
                     <div class="col-md-6">
                         <div class="form-group">
-                            {{ projectForm.start_date.label_tag }} {{ projectForm.start_date|add_class:"datepicker input_bootstrap_style" }}
-                            {% if projectForm.start_date.errors %}
-                                {% for error in projectForm.start_date.errors %}
-                                    <p class="text-danger" style="font-size: small"> {{ error }} </p>
-                                {% endfor %}
-                            {% endif %}
+                            <div class="row">
+                                <div class="col-md-3">
+                                    {{ projectForm.start_date.label_tag }}
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" id="start_date_jalali" class="datepicker form-control" autocomplete="off"/>
+                                    {% render_field projectForm.start_date type="hidden"%}
+                                    {% if projectForm.start_date.errors %}
+                                        {% for error in projectForm.start_date.errors %}
+                                            <p class="text-danger"> {{ error }} </p>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            {{ projectForm.end_date.label_tag }} {{ projectForm.end_date|add_class:"datepicker input_bootstrap_style" }}
-                            {% if projectForm.end_date.errors %}
-                                {% for error in projectForm.end_date.errors %}
-                                    <p class="text-danger" style="font-size: small"> {{ error }} </p>
-                                {% endfor %}
-                            {% endif %}
+                            <div class="row">
+                                <div class="col-md-3">
+                                    {{ projectForm.end_date.label_tag }}
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" id="end_date_jalali" class="datepicker form-control" autocomplete="off"/>
+                                    {% render_field projectForm.end_date type="hidden"%}
+                                    {% if projectForm.end_date.errors %}
+                                        {% for error in projectForm.end_date.errors %}
+                                            <p class="text-danger"> {{ error }} </p>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

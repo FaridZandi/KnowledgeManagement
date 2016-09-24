@@ -36,5 +36,6 @@ admin.site.register(MoaChoice)
 admin.site.register(SciencePackageTopic)
 admin.site.register(Plan, PlanAdmin)
 admin.site.register(PlanGoal)
+admin.site.register(SciencePackage)
 
 

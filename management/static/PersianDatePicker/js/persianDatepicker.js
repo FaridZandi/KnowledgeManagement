@@ -81,7 +81,8 @@
                     self.options.startDate = self.now().toString("YYYY/MM/DD");
                 if (self.options.endDate == "today")
                     self.options.endDate = self.now().toString("YYYY/MM/DD");
-                self.options.selectedDate = self.options.startDate;
+                if (self.options.selectedDate == "today")
+                    self.options.selectedDate = self.now().toString("YYYY/MM/DD");
             }
 
             if (self.options.selectedDate == undefined) {
@@ -439,7 +440,7 @@
                     _goToday
                             .attr("href", "javascript:;")
                             .html('هم اکنون');
-                    if (self.options.startDate == null)
+                    if (self.options.startDate == null || true)
                         _goToday.bind("click", function () {
                             self.persianDate = self.now();
                             

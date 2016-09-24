@@ -195,6 +195,73 @@ class DocumentationView(TemplateView):
         return render(request, 'DocumentationCreate.html', {'form':documentationForm})
 
 
+class SciencePackageCreateView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        science_package_form = SciencePackageForm
+        return render(request, 'SciencePackageCreate.html', {'science_package_form': science_package_form})
+
+    def post(self, request, *args, **kwargs):
+        science_package_form = SciencePackageForm(request.POST)
+        if science_package_form.is_valid():
+            new_science_package = science_package_form.save(commit=False)
+
+            if 'plan_or_project' in request.POST:
+
+                value = request.POST['plan_or_project']
+                if value == 'plan':
+                    new_science_package.project = None
+                if value == 'project':
+                    new_science_package.plan = None
+
+            if (new_science_package.plan is None) and (new_science_package.project is None):
+                science_package_form.add_error("", "هیچ طرح یا پروژه ای انتخاب نشده است.")
+                return render(request, 'SciencePackageCreate.html', {'science_package_form': science_package_form})
+            new_science_package.save()
+            science_package_form = SciencePackageForm
+        return render(request, 'SciencePackageCreate.html', {'science_package_form': science_package_form})
+
+
+class SciencePackageUpdateView(UpdateView):
+    model = SciencePackage
+    success_url = '/sciencepackage/new'
+    template_name = 'SciencePackageUpdate.html'
+    form_class = SciencePackageForm
+
+    def get_context_data(self, **kwargs):
+        data = super(SciencePackageUpdateView, self).get_context_data(**kwargs)
+        data['science_package_form'] = data.get('form')
+
+        if self.object.project is None:
+            data['plan_or_project'] = 'plan'
+        else:
+            data['plan_or_project'] = 'project'
+        return data
+
+    def post(self, request, pk, *args, **kwargs):
+        form = SciencePackageForm(request.POST, instance=self.get_object())
+        if form.is_valid():
+            updated_object = form.save(commit=False)
+            if 'plan_or_project' in self.request.POST:
+                value = request.POST['plan_or_project']
+                if value == 'plan':
+                    updated_object.project = None
+                if value == 'project':
+                    updated_object.plan = None
+
+                if (updated_object.plan is None) and (updated_object.project is None):
+                    form.add_error("", "هیچ طرح یا پروژه ای انتخاب نشده است.")
+                    return render(request, 'SciencePackageUpdate.html', {'science_package_form': form})
+            updated_object.save()
+            return HttpResponseRedirect(self.success_url)
+        return render(self.request, 'SciencePackageUpdate.html', {'science_package_form': form})
+
+
+class SciencePackageDeleteView(DeleteView):
+    model = SciencePackage
+    template_name = 'SciencePackageDelete.html'
+    success_url = '/sciencepackage/new/'
+
+
 class SciencePackageTopicCreateView(TemplateView):
     def get(self, request, *args, **kwargs):
         science_package_topic_form = SciencePackageTopicForm
